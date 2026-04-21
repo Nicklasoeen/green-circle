@@ -1,0 +1,40 @@
+---
+const links = [
+  { href: '#refrigerants', label: 'Kuldemedier' },
+  { href: '#applications', label: 'Bruksområder' },
+  { href: '#case', label: 'Referanser' },
+  { href: '#process', label: 'Prosess' },
+];
+---
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand" aria-label="Green Circle — by Øen Kuldeteknikk, til toppen">
+      <img
+        src="/assets/logo.png"
+        alt="Green Circle — by Øen Kuldeteknikk"
+        class="brand-logo"
+        width="4950"
+        height="1368"
+      />
+    </a>
+
+    <div class="nav-links">
+      {links.map((l) => <a href={l.href}>{l.label}</a>)}
+    </div>
+
+    <a href="#contact" class="nav-cta">
+      Kontakt
+      <svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path
+          d="M3 8h10m-4-4 4 4-4 4"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </a>
+  </div>
+  <div class="progress" id="progress"></div>
+</nav>

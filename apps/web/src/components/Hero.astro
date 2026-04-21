@@ -1,0 +1,93 @@
+---
+const specs = [
+  {
+    num: '4',
+    unit: 'medier',
+    label: 'R290 · R600a · R744 · R717',
+  },
+  {
+    num: '85',
+    unit: '°C',
+    label: 'Utgående varmtvann',
+  },
+  {
+    num: '3–5×',
+    unit: '',
+    label: 'Varme per kWh tilført',
+  },
+];
+
+const tags = [
+  { code: 'R290', gwp: 'GWP 3', color: '#8BC53F', pos: 't1' },
+  { code: 'R600a', gwp: 'GWP 3', color: '#6B8E6B', pos: 't2' },
+  { code: 'R744', gwp: 'GWP 1', color: '#4F6F50', pos: 't3' },
+  { code: 'R717', gwp: 'GWP 0', color: '#8BC53F', pos: 't4' },
+];
+---
+
+<header class="hero" id="top">
+  <div class="hero-grid">
+    <div>
+      <div class="eyebrow">
+        <span class="eyebrow-dot"></span>Kulde- og varmepumpeaggregater
+      </div>
+      <h1 class="display">
+        Naturlige<br />kuldemedier.<br />
+        <span class="lime">Håndlagd</span> <span class="green">ingeniørkunst.</span>
+      </h1>
+      <p class="lead">
+        Green Circle er en serie skreddersydde kulde- og varmepumpeaggregater produsert av nerder i
+        bransjen — med kuldemedier som har lavest mulig klimaavtrykk og en enestående COP.
+      </p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#refrigerants">
+          Utforsk kuldemediene
+          <svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path
+              d="M3 8h10m-4-4 4 4-4 4"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </a>
+        <a class="btn btn-ghost" href="#case">Les kundehistorien</a>
+      </div>
+      <div class="hero-specs">
+        {
+          specs.map((s) => (
+            <div class="hero-spec">
+              <div class="num">
+                {s.num}
+                <span class="unit">{s.unit}</span>
+              </div>
+              <div class="label">{s.label}</div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="hero-visual" id="heroVisual" aria-hidden="true">
+      <div class="ring r1"></div>
+      <div class="ring r2"></div>
+      <div class="ticks" id="ticks"></div>
+      <div class="hero-img-wrap">
+        <img
+          src="/assets/img-open.jpg"
+          alt="Green Circle aggregat åpnet — viser interne komponenter"
+        />
+        <div class="hero-img-overlay"></div>
+      </div>
+      {
+        tags.map((t) => (
+          <div class={`orbit-tag ${t.pos}`}>
+            <span class="pill" style={`background:${t.color}`} />
+            {t.code} <span class="gwp">{t.gwp}</span>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</header>

@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Green Circle — by Øen Kuldeteknikk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+  const TWEAKS = /*EDITMODE-BEGIN*/{
+    "lime": "#8BC53F",
+    "sage": "#6B8E6B",
+    "ink": "#0F1712",
+    "paper": "#0D1410",
+    "heroStyle": "kinetic",
+    "language": "nb"
+  }/*EDITMODE-END*/;
+</script>
+<style>
+  :root{
+    --lime:#8BC53F;
+    --lime-ink:#9ED44A;
+    --sage:#6B8E6B;
+    --sage-dark:#7FA87F;
+    --ink:#E8EDE2;
+    --ink-60:rgba(232,237,226,.6);
+    --paper:#0D1410;
+    --paper-2:#141C10;
+    --line:rgba(232,237,226,.1);
+    --line-soft:rgba(232,237,226,.05);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;color-scheme:dark;}
+  body{overflow-x:hidden;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .display{font-family:'Archivo',sans-serif;font-weight:800;letter-spacing:-0.02em;line-height:0.95;}
+  h1,h2,h3,h4{font-family:'Archivo',sans-serif;letter-spacing:-0.02em;line-height:1;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;border:none;background:none;cursor:pointer;color:inherit;}
+  img{max-width:100%;display:block;}
+
+  /* ====== NAV ====== */
+  .nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(13,20,16,.85);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    border-bottom:1px solid transparent;
+    transition:border-color .2s, background .2s;
+  }
+  .nav.scrolled{border-color:var(--line);}
+  .nav-inner{max-width:1440px;margin:0 auto;padding:18px 40px;display:flex;align-items:center;justify-content:space-between;gap:32px;}
+  .brand{display:flex;align-items:center;gap:14px;}
+  .brand-mark{width:44px;height:44px;position:relative;}
+  .brand-name{font-family:'Archivo';font-weight:800;font-size:15px;letter-spacing:0.02em;}
+  .brand-sub{font-size:11px;color:var(--ink-60);margin-top:1px;letter-spacing:0.03em;}
+  .nav-links{display:flex;gap:28px;align-items:center;}
+  .nav-links a{font-size:14px;font-weight:500;color:var(--ink);opacity:.78;transition:opacity .15s;position:relative;}
+  .nav-links a:hover{opacity:1;}
+  .nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;background:var(--lime);transform:scaleX(0);transform-origin:left;transition:transform .2s;}
+  .nav-links a:hover::after{transform:scaleX(1);}
+  .nav-cta{background:var(--lime);color:#0D1410;padding:11px 20px;border-radius:999px;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:8px;transition:transform .15s, background .15s;}
+  .nav-cta:hover{background:var(--ink);color:#0D1410;transform:translateY(-1px);}
+  .nav-cta .arrow{width:14px;height:14px;}
+  .progress{position:absolute;left:0;bottom:-1px;height:2px;background:var(--lime);width:0%;transition:width .1s linear;}
+  @media(max-width:800px){ .nav-links{display:none;} .nav-inner{padding:14px 20px;} }
+
+  /* ====== HERO ====== */
+  .hero{
+    position:relative;
+    padding:80px 40px 120px;
+    max-width:1440px;margin:0 auto;
+  }
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center;min-height:calc(100vh - 200px);}
+  .eyebrow{font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--sage-dark);font-weight:600;display:inline-flex;align-items:center;gap:10px;margin-bottom:28px;}
+  .eyebrow-dot{width:8px;height:8px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 4px rgba(139,197,63,.2);}
+  .hero h1{font-size:clamp(48px,7.2vw,108px);font-weight:800;color:var(--ink);}
+  .hero h1 .green{color:var(--sage-dark);}
+  .hero h1 .lime{color:var(--lime-ink);}
+  .hero p.lead{font-size:19px;line-height:1.55;color:var(--ink-60);max-width:520px;margin-top:32px;}
+  .hero-ctas{display:flex;gap:14px;margin-top:40px;flex-wrap:wrap;}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:16px 24px;border-radius:999px;font-size:14px;font-weight:600;transition:all .18s;}
+  .btn-primary{background:var(--lime);color:#0D1410;}
+  .btn-primary:hover{background:var(--lime-ink);transform:translateY(-1px);}
+  .btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line);}
+  .btn-ghost:hover{border-color:var(--ink);}
+  .btn .arrow{width:16px;height:16px;}
+
+  .hero-specs{display:flex;gap:40px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .hero-spec .num{font-family:'Archivo';font-weight:800;font-size:36px;color:var(--ink);letter-spacing:-0.02em;}
+  .hero-spec .num .unit{font-size:16px;color:var(--sage-dark);margin-left:2px;}
+  .hero-spec .label{font-size:12px;color:var(--ink-60);margin-top:4px;letter-spacing:0.03em;}
+
+  /* ====== HERO VISUAL ====== */
+  .hero-visual{position:relative;aspect-ratio:1;width:100%;max-width:560px;margin-left:auto;}
+  .ring{position:absolute;inset:0;border-radius:50%;border:1px solid var(--line);}
+  .ring.r1{animation:spin 18s linear infinite;}
+  .ring.r2{inset:8%;border:1px dashed var(--sage);opacity:.6;animation:spin 12s linear infinite reverse;}
+  .ring.r3{inset:18%;border:2px solid transparent;border-top-color:var(--lime);border-right-color:var(--sage);animation:spin 10s linear infinite;}
+  .ring.r4{inset:30%;border:0;background:radial-gradient(circle at 35% 35%, rgba(139,197,63,.18), transparent 60%);}
+  .ring.r1::before{content:"";position:absolute;top:-6px;left:50%;width:12px;height:12px;background:var(--lime);border-radius:50%;transform:translateX(-50%);box-shadow:0 0 8px rgba(139,197,63,.6);}
+  .ring.r2::before{content:"";position:absolute;top:-4px;left:50%;width:8px;height:8px;background:var(--sage);border-radius:50%;transform:translateX(-50%);}
+  .ticks{animation:spin 30s linear infinite;}
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+  .center-g{position:absolute;inset:30%;background:var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 30px 60px -20px rgba(15,23,18,.4);}
+  .center-g svg{width:55%;height:55%;}
+
+  .orbit-tag{position:absolute;background:rgba(20,28,16,.9);border:1px solid rgba(232,237,226,.15);padding:8px 14px;border-radius:999px;font-size:11px;font-weight:600;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;box-shadow:0 8px 24px -12px rgba(0,0,0,.4);backdrop-filter:blur(8px);}
+  .orbit-tag .pill{width:8px;height:8px;border-radius:50%;}
+  .orbit-tag.t1{top:6%;left:-6%;}
+  .orbit-tag.t2{top:32%;right:-12%;}
+  .orbit-tag.t3{bottom:18%;left:-8%;}
+  .orbit-tag.t4{bottom:2%;right:8%;}
+  .orbit-tag .gwp{color:var(--ink-60);font-weight:500;}
+
+  /* tick marks around outer ring */
+  .ticks{position:absolute;inset:0;}
+  .tick{position:absolute;top:50%;left:50%;width:2px;height:8px;background:var(--lime);opacity:.2;transform-origin:50% 0;}
+
+  /* hero image */
+  .hero-img-wrap{position:absolute;inset:8%;border-radius:50%;overflow:hidden;box-shadow:0 40px 80px -20px rgba(15,23,18,.5);}
+  .hero-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:center;}
+  .hero-img-overlay{position:absolute;inset:0;background:radial-gradient(circle at 60% 40%, transparent 40%, rgba(8,14,7,.4) 100%);}
+
+  /* full-bleed strip */
+  .img-strip{width:100%;height:52vw;max-height:600px;min-height:320px;overflow:hidden;position:relative;}
+  .img-strip img{width:100%;height:100%;object-fit:cover;object-position:center 55%;display:block;}
+  .img-strip-overlay{position:absolute;inset:0;background:linear-gradient(to bottom, rgba(13,20,16,.7) 0%, transparent 30%, transparent 70%, rgba(13,20,16,.8) 100%);}
+  .img-strip-label{position:absolute;bottom:40px;right:48px;font-family:'JetBrains Mono';font-size:12px;color:var(--paper);letter-spacing:0.06em;opacity:.85;}
+
+  /* ====== SECTION BASICS ====== */
+  section{padding:120px 40px;max-width:1440px;margin:0 auto;position:relative;}
+  .section-head{display:grid;grid-template-columns:auto 1fr;gap:80px;margin-bottom:72px;align-items:end;}
+  .section-num{font-family:'JetBrains Mono';font-size:13px;color:var(--sage-dark);font-weight:500;}
+  .section-title{font-size:clamp(36px,4.8vw,68px);font-weight:800;max-width:900px;line-height:1;}
+  .section-title .muted{color:var(--ink-60);}
+  .section-title .lime{color:var(--lime-ink);}
+  @media(max-width:800px){ .section-head{grid-template-columns:1fr;gap:16px;} section{padding:80px 20px;} .hero{padding:40px 20px 80px;} .hero-grid{grid-template-columns:1fr;gap:40px;min-height:auto;} .hero-specs{gap:24px;flex-wrap:wrap;} }
+
+  /* ====== PILLARS ====== */
+  .pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .pillar{padding:40px 32px 40px 0;border-right:1px solid var(--line);position:relative;}
+  .pillar:last-child{border-right:none;padding-right:0;}
+  .pillar-num{font-family:'JetBrains Mono';font-size:11px;color:var(--sage-dark);margin-bottom:24px;}
+  .pillar h3{font-size:22px;font-weight:700;margin-bottom:12px;max-width:200px;}
+  .pillar p{font-size:14px;color:var(--ink-60);line-height:1.55;}
+  @media(max-width:900px){ .pillars{grid-template-columns:repeat(2,1fr);} .pillar:nth-child(2){border-right:none;} .pillar{padding:28px 20px 28px 0;} }
+
+  /* ====== REFRIGERANTS ====== */
+  #refrigerants{background:#080E07;color:var(--ink);max-width:none;padding:120px 0;}
+  #refrigerants .inner{max-width:1440px;margin:0 auto;padding:0 40px;}
+  #refrigerants .section-num{color:var(--lime);}
+  #refrigerants .section-title{color:var(--paper);}
+  #refrigerants .section-title .muted{color:rgba(246,247,241,.4);}
+
+  .ref-layout{display:grid;grid-template-columns:380px 1fr;gap:80px;align-items:start;}
+  .ref-tabs{display:flex;flex-direction:column;gap:4px;}
+  .ref-tab{text-align:left;padding:20px 24px;border-radius:14px;background:transparent;border:1px solid transparent;color:var(--paper);transition:all .18s;display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;}
+  .ref-tab:hover{background:rgba(246,247,241,.04);}
+  .ref-tab.active{background:rgba(139,197,63,.1);border-color:rgba(139,197,63,.3);}
+  .ref-tab .dot{width:10px;height:10px;border-radius:50%;background:var(--sage);}
+  .ref-tab.active .dot{background:var(--lime);box-shadow:0 0 0 4px rgba(139,197,63,.2);}
+  .ref-tab .code{font-family:'Archivo';font-weight:800;font-size:22px;}
+  .ref-tab .name{font-size:12px;color:rgba(246,247,241,.55);margin-top:2px;}
+  .ref-tab .gwp-chip{font-family:'JetBrains Mono';font-size:11px;padding:4px 8px;background:rgba(246,247,241,.08);border-radius:6px;}
+  .ref-tab.active .gwp-chip{background:var(--lime);color:var(--ink);}
+
+  .ref-content{border-left:1px solid rgba(246,247,241,.1);padding-left:80px;min-height:520px;}
+  .ref-content .ref-head{display:flex;align-items:baseline;gap:20px;margin-bottom:8px;}
+  .ref-content .ref-code{font-family:'Archivo';font-weight:800;font-size:84px;line-height:0.9;letter-spacing:-0.04em;color:var(--lime);}
+  .ref-content .ref-name{font-size:24px;font-weight:600;color:var(--paper);}
+  .ref-content .ref-alt{font-family:'JetBrains Mono';font-size:13px;color:rgba(246,247,241,.5);margin-top:8px;}
+  .ref-content .ref-desc{margin-top:32px;font-size:17px;line-height:1.6;color:rgba(246,247,241,.8);max-width:620px;}
+  .ref-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:48px;border-top:1px solid rgba(246,247,241,.1);}
+  .ref-stat{padding:24px 24px 0 0;border-right:1px solid rgba(246,247,241,.1);}
+  .ref-stat:last-child{border-right:none;}
+  .ref-stat .label{font-family:'JetBrains Mono';font-size:11px;color:rgba(246,247,241,.5);text-transform:uppercase;letter-spacing:0.05em;}
+  .ref-stat .val{font-family:'Archivo';font-weight:700;font-size:32px;color:var(--paper);margin-top:8px;}
+  .ref-stat .val .unit{font-size:14px;color:rgba(246,247,241,.5);margin-left:4px;font-weight:500;}
+
+  .ref-panel{opacity:0;transform:translateY(8px);transition:opacity .3s, transform .3s;position:absolute;pointer-events:none;width:calc(100% - 460px);}
+  .ref-panel.active{opacity:1;transform:translateY(0);position:static;pointer-events:auto;}
+  .ref-panels{position:relative;}
+
+  @media(max-width:1000px){ .ref-layout{grid-template-columns:1fr;gap:40px;} .ref-content{border-left:none;padding-left:0;border-top:1px solid rgba(246,247,241,.1);padding-top:40px;} .ref-panel{width:100%;} }
+
+  /* ====== APPLICATIONS ====== */
+  .app-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden;}
+  .app{background:var(--paper);padding:36px 28px;display:flex;flex-direction:column;justify-content:space-between;min-height:220px;transition:background .18s;cursor:pointer;position:relative;}
+  .app:hover{background:var(--paper-2);}
+  .app .app-num{font-family:'JetBrains Mono';font-size:11px;color:var(--sage-dark);}
+  .app .app-name{font-family:'Archivo';font-weight:700;font-size:20px;line-height:1.1;margin-top:40px;}
+  .app .app-arrow{position:absolute;top:28px;right:24px;width:18px;height:18px;opacity:0;transform:translate(-6px,6px);transition:all .2s;color:var(--lime-ink);}
+  .app:hover .app-arrow{opacity:1;transform:translate(0,0);}
+  @media(max-width:900px){ .app-grid{grid-template-columns:repeat(2,1fr);} }
+  @media(max-width:500px){ .app-grid{grid-template-columns:1fr;} }
+
+  /* ====== CASE ====== */
+  .case{display:grid;grid-template-columns:1fr 1.1fr;gap:80px;align-items:center;}
+  .case-visual{aspect-ratio:4/5;background:linear-gradient(135deg,#DDE3D3,#B8C7A8);border-radius:8px;position:relative;overflow:hidden;}
+  .case-visual .scribble{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(15,23,18,.3);font-family:'JetBrains Mono';font-size:12px;}
+  .case-visual::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(45deg, rgba(15,23,18,.04) 0 2px, transparent 2px 20px);}
+  .case-visual::after{content:"";position:absolute;top:24px;left:24px;width:42px;height:42px;border-radius:50%;background:var(--lime);}
+  .case-kicker{font-family:'JetBrains Mono';font-size:12px;color:var(--sage-dark);margin-bottom:24px;letter-spacing:0.05em;}
+  .case-quote{font-family:'Archivo';font-weight:500;font-size:clamp(26px,2.6vw,36px);line-height:1.2;letter-spacing:-0.01em;color:var(--ink);}
+  .case-quote .mark{color:var(--lime-ink);}
+  .case-attr{margin-top:40px;padding-top:24px;border-top:1px solid var(--line);display:flex;align-items:center;gap:16px;}
+  .case-avatar{width:48px;height:48px;border-radius:50%;background:var(--sage);display:flex;align-items:center;justify-content:center;color:var(--paper);font-family:'Archivo';font-weight:700;font-size:18px;}
+  .case-name{font-weight:600;font-size:15px;}
+  .case-role{font-size:13px;color:var(--ink-60);margin-top:2px;}
+  .case-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:40px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .case-metric{padding:24px 24px 24px 0;border-right:1px solid var(--line);}
+  .case-metric:last-child{border-right:none;}
+  .case-metric .v{font-family:'Archivo';font-weight:800;font-size:28px;color:var(--ink);}
+  .case-metric .l{font-size:12px;color:var(--ink-60);margin-top:4px;}
+  @media(max-width:900px){ .case{grid-template-columns:1fr;gap:40px;} .case-visual{aspect-ratio:5/4;} }
+
+  /* ====== PROCESS ====== */
+  .process{display:grid;grid-template-columns:repeat(4,1fr);gap:0;}
+  .process-step{padding:32px 24px 32px 0;border-top:2px solid var(--ink);position:relative;}
+  .process-step::before{content:"";position:absolute;top:-6px;left:0;width:10px;height:10px;background:var(--lime);border-radius:50%;}
+  .process-step .step-num{font-family:'JetBrains Mono';font-size:12px;color:var(--sage-dark);margin-bottom:40px;}
+  .process-step h4{font-size:22px;font-weight:700;}
+  .process-step p{font-size:14px;color:var(--ink-60);line-height:1.55;margin-top:10px;}
+  @media(max-width:900px){ .process{grid-template-columns:1fr 1fr;} }
+  @media(max-width:600px){ .process{grid-template-columns:1fr;} }
+
+  /* ====== CONTACT / FOOTER ====== */
+  .contact{background:#0A1209;color:var(--ink);max-width:none;padding:120px 0 60px;border-top:1px solid var(--line);}
+  .contact .inner{max-width:1440px;margin:0 auto;padding:0 40px;}
+  .contact-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:80px;margin-bottom:100px;}
+  .contact h2{font-size:clamp(40px,5.5vw,76px);font-weight:800;line-height:0.95;color:var(--ink);}
+  .contact h2 .lime{color:var(--lime);}
+  .contact .lead{font-size:18px;line-height:1.55;color:var(--ink-60);margin-top:28px;max-width:480px;}
+  .contact-form{background:rgba(246,247,241,.06);border:1px solid rgba(246,247,241,.15);border-radius:16px;padding:36px;}
+  .contact-form .field{display:block;margin-bottom:20px;}
+  .contact-form label{display:block;font-family:'JetBrains Mono';font-size:11px;color:rgba(246,247,241,.6);margin-bottom:8px;letter-spacing:0.05em;text-transform:uppercase;}
+  .contact-form input, .contact-form select, .contact-form textarea{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(246,247,241,.2);color:var(--paper);font-family:inherit;font-size:15px;padding:8px 0;outline:none;transition:border-color .15s;}
+  .contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus{border-color:var(--lime);}
+  .contact-form textarea{resize:none;min-height:60px;}
+  .contact-form select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23F6F7F1' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 0 center;}
+  .contact-form option{color:var(--ink);}
+  .send-btn{width:100%;background:var(--lime);color:var(--ink);padding:16px;border-radius:999px;font-weight:600;font-size:14px;margin-top:12px;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:10px;}
+  .send-btn:hover{background:var(--paper);}
+  .send-btn:disabled{opacity:.6;cursor:wait;}
+
+  .contact-info{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;padding-top:40px;border-top:1px solid rgba(246,247,241,.15);}
+  .info-col h5{font-family:'JetBrains Mono';font-size:11px;color:rgba(246,247,241,.6);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:16px;font-weight:500;}
+  .info-col p, .info-col a{font-size:14px;color:var(--paper);line-height:1.6;display:block;}
+  .info-col a:hover{color:var(--lime);}
+
+  .foot{margin-top:80px;padding-top:40px;border-top:1px solid rgba(246,247,241,.15);display:flex;justify-content:space-between;align-items:center;font-size:12px;color:rgba(246,247,241,.55);font-family:'JetBrains Mono';flex-wrap:wrap;gap:16px;}
+
+  @media(max-width:900px){ .contact-grid{grid-template-columns:1fr;gap:40px;} .contact-info{grid-template-columns:1fr 1fr;gap:32px;} }
+
+  /* ====== REVEAL ====== */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s, transform .6s;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* ====== TWEAKS PANEL ====== */
+  .tweaks{position:fixed;bottom:20px;right:20px;background:#1A2418;color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:20px;width:280px;z-index:100;box-shadow:0 20px 40px -10px rgba(0,0,0,.5);display:none;}
+  .tweaks.show{display:block;}
+  .tweaks h5{font-family:'Archivo';font-size:14px;font-weight:700;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;}
+  .tweaks .close{color:rgba(246,247,241,.5);cursor:pointer;font-size:18px;}
+  .tweaks .tw-row{margin-bottom:14px;}
+  .tweaks label{display:block;font-family:'JetBrains Mono';font-size:10px;color:rgba(246,247,241,.55);text-transform:uppercase;margin-bottom:6px;letter-spacing:0.05em;}
+  .tweaks .swatches{display:flex;gap:6px;}
+  .tweaks .swatch{width:28px;height:28px;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:border .15s;}
+  .tweaks .swatch.active{border-color:var(--paper);}
+  .tweaks .seg{display:flex;background:rgba(246,247,241,.06);border-radius:8px;padding:3px;}
+  .tweaks .seg button{flex:1;padding:7px;font-size:11px;color:rgba(246,247,241,.6);border-radius:6px;}
+  .tweaks .seg button.on{background:var(--lime);color:var(--ink);font-weight:600;}
+
+  /* logo mark inline */
+  .logo-mark-wrap{display:inline-block;vertical-align:middle;}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 44 44" width="44" height="44">
+          <circle cx="22" cy="22" r="20" fill="none" stroke="#6B8E6B" stroke-width="3"/>
+          <path d="M28 14 a9 9 0 1 0 2 11 h-7" fill="none" stroke="#8BC53F" stroke-width="6.5" stroke-linecap="square"/>
+        </svg>
+      </span>
+      <span>
+        <div class="brand-name">GREEN CIRCLE</div>
+        <div class="brand-sub">by Øen Kuldeteknikk</div>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a href="#refrigerants">Kuldemedier</a>
+      <a href="#applications">Bruksområder</a>
+      <a href="#case">Referanser</a>
+      <a href="#process">Prosess</a>
+    </div>
+    <a href="#contact" class="nav-cta">
+      Få et tilbud
+      <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M3 8h10m-4-4 4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+  <div class="progress" id="progress"></div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="top">
+  <div class="hero-grid">
+    <div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span>Kulde- og varmepumpeaggregater</div>
+      <h1 class="display">
+        Naturlige<br>kuldemedier.<br><span class="lime">Håndlagd</span> <span class="green">ingeniørkunst.</span>
+      </h1>
+      <p class="lead">
+        Green Circle er en serie skreddersydde kulde- og varmepumpeaggregater produsert av nerder i bransjen — med kuldemedier som har lavest mulig klimaavtrykk og en enestående COP.
+      </p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#refrigerants">
+          Utforsk kuldemediene
+          <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M3 8h10m-4-4 4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="#case">Les kundehistorien</a>
+      </div>
+      <div class="hero-specs">
+        <div class="hero-spec"><div class="num">4<span class="unit">medier</span></div><div class="label">R290 · R600a · R744 · R717</div></div>
+        <div class="hero-spec"><div class="num">85<span class="unit">°C</span></div><div class="label">Utgående varmtvann</div></div>
+        <div class="hero-spec"><div class="num">3–5×<span class="unit"></span></div><div class="label">Varme per kWh tilført</div></div>
+      </div>
+    </div>
+
+    <div class="hero-visual" id="heroVisual">
+      <div class="ring r1"></div>
+      <div class="ring r2"></div>
+      <div class="ticks" id="ticks"></div>
+      <div class="hero-img-wrap">
+        <img src="assets/img-open.jpg" alt="Green Circle aggregat åpnet — viser interne komponenter" />
+        <div class="hero-img-overlay"></div>
+      </div>
+      <div class="orbit-tag t1"><span class="pill" style="background:#8BC53F"></span>R290 <span class="gwp">GWP 3</span></div>
+      <div class="orbit-tag t2"><span class="pill" style="background:#6B8E6B"></span>R600a <span class="gwp">GWP 3</span></div>
+      <div class="orbit-tag t3"><span class="pill" style="background:#4F6F50"></span>R744 <span class="gwp">GWP 1</span></div>
+      <div class="orbit-tag t4"><span class="pill" style="background:#8BC53F"></span>R717 <span class="gwp">GWP 0</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ PHOTO STRIP ============ -->
+<div class="img-strip">
+  <img src="assets/img-logo.jpg" alt="Green Circle — logo på aggregat" />
+  <div class="img-strip-overlay"></div>
+  <div class="img-strip-label">HÅNDLAGD I HORNINDAL — LEVERT OVER HELE LANDET</div>
+</div>
+
+<!-- ============ PILLARS ============ -->
+<section id="pillars">
+  <div class="section-head reveal">
+    <div class="section-num">01 — PRINSIPPER</div>
+    <h2 class="section-title">Fire ting kjennetegner<br>hver <span class="lime">Green Circle</span>-maskin.</h2>
+  </div>
+  <div class="pillars reveal">
+    <div class="pillar">
+      <div class="pillar-num">/01</div>
+      <h3>Håndlagd i Norge</h3>
+      <p>Hver maskin er produsert av nerder i bransjen — fra Hornindal til anlegg over hele landet.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">/02</div>
+      <h3>Naturlige kuldemedier</h3>
+      <p>Kun medier med lavt globalt oppvarmingspotensial. Propan, isobutan, CO₂ og ammoniakk.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">/03</div>
+      <h3>Skreddersydde løsninger</h3>
+      <p>Konstruert for spesifikt formål. Serieproduksjon kan aldri matche en maskin bygget for ditt system.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">/04</div>
+      <h3>Enestående COP</h3>
+      <p>3–5 enheter varme for hver kWh tilført elektrisk energi. Smart, stabilt, bærekraftig.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REFRIGERANTS ============ -->
+<section id="refrigerants">
+  <div class="inner">
+    <div class="section-head reveal">
+      <div class="section-num">02 — KULDEMEDIER</div>
+      <h2 class="section-title">Velg medium, <span class="muted">få riktig verktøy for jobben.</span></h2>
+    </div>
+
+    <div class="ref-layout">
+      <div class="ref-tabs" id="refTabs">
+        <button class="ref-tab active" data-ref="r290">
+          <span class="dot"></span>
+          <span><div class="code">R290</div><div class="name">Propan</div></span>
+          <span class="gwp-chip">GWP 3</span>
+        </button>
+        <button class="ref-tab" data-ref="r600a">
+          <span class="dot"></span>
+          <span><div class="code">R600a</div><div class="name">Isobutan</div></span>
+          <span class="gwp-chip">GWP 3</span>
+        </button>
+        <button class="ref-tab" data-ref="r744">
+          <span class="dot"></span>
+          <span><div class="code">R744</div><div class="name">CO₂ / karbondioksid</div></span>
+          <span class="gwp-chip">GWP 1</span>
+        </button>
+        <button class="ref-tab" data-ref="r717">
+          <span class="dot"></span>
+          <span><div class="code">R717</div><div class="name">NH₃ / ammoniakk</div></span>
+          <span class="gwp-chip">GWP 0</span>
+        </button>
+      </div>
+
+      <div class="ref-panels">
+        <div class="ref-panel active" data-panel="r290">
+          <div class="ref-head"><div class="ref-code">R290</div><div class="ref-name">Propan</div></div>
+          <div class="ref-alt">Isvann- og varmepumpeanlegg</div>
+          <div class="ref-desc">Den mest utbredte løsningen i Green Circle-serien. Propan egner seg svært godt for isvann- og varmepumpeanlegg, og gir en trygg balanse mellom effekt, effektivitet og størrelse.</div>
+          <div class="ref-stats">
+            <div class="ref-stat"><div class="label">Kapasitet</div><div class="val">≤ 500<span class="unit">kW</span></div></div>
+            <div class="ref-stat"><div class="label">Utgående temp.</div><div class="val">60<span class="unit">°C</span></div></div>
+            <div class="ref-stat"><div class="label">GWP</div><div class="val">3</div></div>
+          </div>
+        </div>
+
+        <div class="ref-panel" data-panel="r600a">
+          <div class="ref-head"><div class="ref-code">R600a</div><div class="ref-name">Isobutan</div></div>
+          <div class="ref-alt">Høytemperatur varmepumper</div>
+          <div class="ref-desc">Når prosessen krever høyere temperatur enn propan klarer, tar isobutan over. Ideelt for fjernvarme, tørkeprosesser og industriell varmegjenvinning hvor 85 °C er kravet.</div>
+          <div class="ref-stats">
+            <div class="ref-stat"><div class="label">Kapasitet</div><div class="val">≤ 500<span class="unit">kW</span></div></div>
+            <div class="ref-stat"><div class="label">Utgående temp.</div><div class="val">85<span class="unit">°C</span></div></div>
+            <div class="ref-stat"><div class="label">GWP</div><div class="val">3</div></div>
+          </div>
+        </div>
+
+        <div class="ref-panel" data-panel="r744">
+          <div class="ref-head"><div class="ref-code">R744</div><div class="ref-name">Karbondioksid</div></div>
+          <div class="ref-alt">Bygg og prosesser med både varme- og kjølebehov</div>
+          <div class="ref-desc">CO₂ er ideelt for bygg og prosesser som samtidig har både et lavtemperatur kjølebehov og et høytemperatur varmebehov. Energien brukes to ganger — fra kjøling til varmtvann.</div>
+          <div class="ref-stats">
+            <div class="ref-stat"><div class="label">Kapasitet</div><div class="val">≤ 1000<span class="unit">kW</span></div></div>
+            <div class="ref-stat"><div class="label">Anvendelse</div><div class="val">Dual<span class="unit">bruk</span></div></div>
+            <div class="ref-stat"><div class="label">GWP</div><div class="val">1</div></div>
+          </div>
+        </div>
+
+        <div class="ref-panel" data-panel="r717">
+          <div class="ref-head"><div class="ref-code">R717</div><div class="ref-name">Ammoniakk</div></div>
+          <div class="ref-alt">Industrielle kulde- og varmepumpeanlegg</div>
+          <div class="ref-desc">Når prosjektet krever flere tusen kilowatt — slakteri, oppdrett, fjernvarme i skala — er ammoniakk det mest effektive valget. GWP på 0, og ytelse uten sidestykke.</div>
+          <div class="ref-stats">
+            <div class="ref-stat"><div class="label">Kapasitet</div><div class="val">Flere<span class="unit">tusen kW</span></div></div>
+            <div class="ref-stat"><div class="label">Utgående temp.</div><div class="val">80<span class="unit">°C</span></div></div>
+            <div class="ref-stat"><div class="label">GWP</div><div class="val">0</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ APPLICATIONS ============ -->
+<section id="applications">
+  <div class="section-head reveal">
+    <div class="section-num">03 — BRUKSOMRÅDER</div>
+    <h2 class="section-title">Femten prosesser.<br>En plattform.</h2>
+  </div>
+  <div class="app-grid reveal">
+    <!-- 15 + 1 placeholder -->
+  </div>
+</section>
+
+<!-- ============ CASE ============ -->
+<section id="case">
+  <div class="section-head reveal">
+    <div class="section-num">04 — REFERANSE</div>
+    <h2 class="section-title">Birger N. Haug<br>Eiendom AS</h2>
+  </div>
+  <div class="case reveal">
+    <div class="case-visual">
+      <img src="assets/img-installed.jpg" alt="Installert Green Circle anlegg" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;" />
+    </div>
+    <div>
+      <div class="case-kicker">FAMILIEEID — 80.000 M² NÆRINGSEIENDOM — ØSTLANDET</div>
+      <div class="case-quote">
+        <span class="mark">«</span>Øen skulle levere en komplett skreddersydd varme- og kjølesentral med to-krets varmepumpe for propan, pumper, shunter, buffertanker og integrert automatikk. Vi opplever kvalitet på utstyr og produkter som meget høy — og allerede etter noen uker er driften stabil med meget god COP.<span class="mark">»</span>
+      </div>
+      <div class="case-attr">
+        <div class="case-avatar">TH</div>
+        <div>
+          <div class="case-name">Thomas Hovde</div>
+          <div class="case-role">Teknisk sjef, Birger N. Haug Eiendom AS</div>
+        </div>
+      </div>
+      <div class="case-metrics">
+        <div class="case-metric"><div class="v">3 000 m²</div><div class="l">Næringsbygg i Lier</div></div>
+        <div class="case-metric"><div class="v">25 år</div><div class="l">Eksisterende anlegg erstattet</div></div>
+        <div class="case-metric"><div class="v">R290</div><div class="l">To-krets varmepumpe</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROCESS ============ -->
+<section id="process">
+  <div class="section-head reveal">
+    <div class="section-num">05 — PROSESS</div>
+    <h2 class="section-title">Fra systemskjema<br>til driftsatt anlegg.</h2>
+  </div>
+  <div class="process reveal">
+    <div class="process-step">
+      <div class="step-num">STEG 01</div>
+      <h4>Behovsanalyse</h4>
+      <p>Vi går gjennom energikilder, temperaturkrav og eksisterende systemer — og forstår prosessen din før vi tegner noe.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num">STEG 02</div>
+      <h4>Systemskjema</h4>
+      <p>Med leveransebeskrivelse og skjema på plass velges riktig kuldemedium og dimensjonering.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num">STEG 03</div>
+      <h4>Håndbygging</h4>
+      <p>Maskinen prefabrikkeres i Hornindal — som regel inne i et større energisystem med pumper, shunter, tanker og automatikk.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num">STEG 04</div>
+      <h4>Installasjon &amp; drift</h4>
+      <p>Montert av norske fagfolk med yrkesstolthet. Rydig arbeidsplass, minimalt med forstyrrelser, stabil drift fra uke én.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" class="contact">
+  <div class="inner">
+    <div class="contact-grid">
+      <div class="reveal">
+        <h2>La oss<br>bygge noe <span class="lime">bærekraftig.</span></h2>
+        <p class="lead">Beskriv prosjektet, så tar vi kontakt for en uforpliktende samtale om hvilket kuldemedium og hvilken dimensjonering som passer best.</p>
+      </div>
+      <form class="contact-form reveal" id="contactForm">
+        <div class="field">
+          <label for="name">Navn</label>
+          <input id="name" required autocomplete="name"/>
+        </div>
+        <div class="field">
+          <label for="email">E-post</label>
+          <input id="email" type="email" required autocomplete="email"/>
+        </div>
+        <div class="field">
+          <label for="app">Bruksområde</label>
+          <select id="app">
+            <option>Næringsbygg</option>
+            <option>Fjernvarme / fjernkjøling</option>
+            <option>Svømmehall</option>
+            <option>Slakteri / næringsmiddel</option>
+            <option>Landbasert oppdrett</option>
+            <option>Datasentral</option>
+            <option>Industriell prosess</option>
+            <option>Annet</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="msg">Kort om prosjektet</label>
+          <textarea id="msg" rows="3" placeholder="Effektbehov, temperaturnivåer, tidsramme …"></textarea>
+        </div>
+        <button class="send-btn" type="submit" id="sendBtn">
+          Send forespørsel
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10m-4-4 4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+      </form>
+    </div>
+
+    <div class="contact-info">
+      <div class="info-col">
+        <h5>Selskap</h5>
+        <p>Øen Kuldeteknikk AS<br>Familiebedrift, Vestlandet</p>
+      </div>
+      <div class="info-col">
+        <h5>Besøk</h5>
+        <p>Ytrehornsvegen 58<br>6763 Hornindal</p>
+      </div>
+      <div class="info-col">
+        <h5>Ring</h5>
+        <a href="tel:+4757878400">+47 57 87 84 00</a>
+      </div>
+      <div class="info-col">
+        <h5>E-post</h5>
+        <a href="mailto:post@kuldeteknikk.com">post@kuldeteknikk.com</a>
+      </div>
+    </div>
+
+    <div class="foot">
+      <div>© 2026 ØEN KULDETEKNIKK AS — GREEN CIRCLE</div>
+      <div>KVALITET SOM VIKTIGSTE SALGSFAKTOR</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TWEAKS PANEL ============ -->
+<div class="tweaks" id="tweaks">
+  <h5>Tweaks <span class="close" id="tweaksClose">×</span></h5>
+  <div class="tw-row">
+    <label>Accent</label>
+    <div class="swatches" id="limeSwatches">
+      <div class="swatch" style="background:#8BC53F" data-lime="#8BC53F"></div>
+      <div class="swatch" style="background:#5FAF2E" data-lime="#5FAF2E"></div>
+      <div class="swatch" style="background:#C4E03C" data-lime="#C4E03C"></div>
+      <div class="swatch" style="background:#3FA89E" data-lime="#3FA89E"></div>
+    </div>
+  </div>
+  <div class="tw-row">
+    <label>Background tone</label>
+    <div class="swatches" id="paperSwatches">
+      <div class="swatch" style="background:#F6F7F1" data-paper="#F6F7F1"></div>
+      <div class="swatch" style="background:#FFFFFF" data-paper="#FFFFFF"></div>
+      <div class="swatch" style="background:#EDE9DE" data-paper="#EDE9DE"></div>
+      <div class="swatch" style="background:#E8EEE1" data-paper="#E8EEE1"></div>
+    </div>
+  </div>
+  <div class="tw-row">
+    <label>Hero ringe</label>
+    <div class="seg" id="heroSeg">
+      <button data-hero="kinetic" class="on">Roterer</button>
+      <button data-hero="static">Statisk</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   Applications list
+   ========================================================= */
+const APPS = [
+  "Næringsbygg","Svømmehaller","Fjernvarmeanlegg","Fjernkjøleanlegg",
+  "Slakteri — kjøtt","Slakteri — fisk","Spekematproduksjon","Landbasert oppdrett",
+  "Frukt og grønnsaker","Datasentraler","Biogass","Hydrogenproduksjon",
+  "Industrielle prosesser","Legemiddelproduksjon","…og mer"
+];
+const appGrid = document.querySelector('.app-grid');
+APPS.forEach((name, i) => {
+  const el = document.createElement('div');
+  el.className = 'app';
+  el.innerHTML = `
+    <div class="app-num">${String(i+1).padStart(2,'0')}</div>
+    <div class="app-name">${name}</div>
+    <svg class="app-arrow" viewBox="0 0 16 16" fill="none"><path d="M3 13 13 3M5 3h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+  `;
+  appGrid.appendChild(el);
+});
+// Fill grid to a multiple of 4 with a neutral card
+while (appGrid.children.length % 4 !== 0) {
+  const pad = document.createElement('div');
+  pad.className = 'app';
+  pad.style.pointerEvents = 'none';
+  pad.style.background = 'var(--paper-2)';
+  appGrid.appendChild(pad);
+}
+
+/* =========================================================
+   Ticks around the hero ring
+   ========================================================= */
+const ticks = document.getElementById('ticks');
+const N = 60;
+for (let i = 0; i < N; i++) {
+  const t = document.createElement('div');
+  t.className = 'tick';
+  const angle = (i / N) * 360;
+  t.style.transform = `translate(-50%,0) rotate(${angle}deg) translateY(-50%) translateY(-230px)`;
+  if (i % 5 === 0) { t.style.height = '14px'; t.style.opacity = '0.45'; }
+  ticks.appendChild(t);
+}
+
+/* =========================================================
+   Nav scroll state + progress
+   ========================================================= */
+const nav = document.getElementById('nav');
+const progress = document.getElementById('progress');
+function onScroll(){
+  const y = window.scrollY;
+  nav.classList.toggle('scrolled', y > 10);
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  progress.style.width = (h > 0 ? (y / h * 100) : 0) + '%';
+}
+window.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* =========================================================
+   Reveal on scroll
+   ========================================================= */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* =========================================================
+   Refrigerant tabs
+   ========================================================= */
+document.querySelectorAll('.ref-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const id = tab.dataset.ref;
+    document.querySelectorAll('.ref-tab').forEach(t => t.classList.toggle('active', t === tab));
+    document.querySelectorAll('.ref-panel').forEach(p => p.classList.toggle('active', p.dataset.panel === id));
+  });
+});
+
+/* =========================================================
+   Contact form (demo)
+   ========================================================= */
+document.getElementById('contactForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('sendBtn');
+  btn.disabled = true;
+  btn.innerHTML = 'Sender …';
+  setTimeout(() => {
+    btn.innerHTML = '✓ Takk! Vi tar kontakt';
+    btn.style.background = 'var(--paper)';
+  }, 900);
+});
+
+/* =========================================================
+   Smooth anchor scroll
+   ========================================================= */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    const id = a.getAttribute('href');
+    if (id.length > 1) {
+      const el = document.querySelector(id);
+      if (el) { e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+    }
+  });
+});
+
+/* =========================================================
+   TWEAKS
+   ========================================================= */
+function applyTweaks(t){
+  document.documentElement.style.setProperty('--lime', t.lime);
+  document.documentElement.style.setProperty('--paper', t.paper);
+  document.querySelectorAll('#limeSwatches .swatch').forEach(s => s.classList.toggle('active', s.dataset.lime === t.lime));
+  document.querySelectorAll('#paperSwatches .swatch').forEach(s => s.classList.toggle('active', s.dataset.paper === t.paper));
+  document.querySelectorAll('#heroSeg button').forEach(b => b.classList.toggle('on', b.dataset.hero === t.heroStyle));
+  // Kinetic vs static
+  document.querySelectorAll('.ring').forEach(r => {
+    r.style.animationPlayState = (t.heroStyle === 'static') ? 'paused' : 'running';
+  });
+}
+applyTweaks(TWEAKS);
+
+function setTweak(key, val){
+  TWEAKS[key] = val;
+  applyTweaks(TWEAKS);
+  window.parent.postMessage({type:'__edit_mode_set_keys', edits:{[key]:val}}, '*');
+}
+
+document.querySelectorAll('#limeSwatches .swatch').forEach(s => {
+  s.addEventListener('click', () => setTweak('lime', s.dataset.lime));
+});
+document.querySelectorAll('#paperSwatches .swatch').forEach(s => {
+  s.addEventListener('click', () => setTweak('paper', s.dataset.paper));
+});
+document.querySelectorAll('#heroSeg button').forEach(b => {
+  b.addEventListener('click', () => setTweak('heroStyle', b.dataset.hero));
+});
+
+const tweaksEl = document.getElementById('tweaks');
+document.getElementById('tweaksClose').addEventListener('click', () => {
+  tweaksEl.classList.remove('show');
+  window.parent.postMessage({type:'__deactivate_edit_mode'}, '*');
+});
+
+// Edit mode wiring — LISTEN FIRST, announce second
+window.addEventListener('message', (e) => {
+  const d = e.data || {};
+  if (d.type === '__activate_edit_mode') tweaksEl.classList.add('show');
+  if (d.type === '__deactivate_edit_mode') tweaksEl.classList.remove('show');
+});
+window.parent.postMessage({type:'__edit_mode_available'}, '*');
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+---
+const steps = [
+  {
+    title: 'Behovsanalyse',
+    body: 'Vi går gjennom energikilder, temperaturkrav og eksisterende systemer — og forstår prosessen din før vi tegner noe.',
+  },
+  {
+    title: 'Systemskjema',
+    body: 'Med leveransebeskrivelse og skjema på plass velges riktig kuldemedium og dimensjonering.',
+  },
+  {
+    title: 'Håndbygging',
+    body: 'Maskinen prefabrikkeres i Hornindal — som regel inne i et større energisystem med pumper, shunter, tanker og automatikk.',
+  },
+  {
+    title: 'Installasjon & drift',
+    body: 'Montert av norske fagfolk med yrkesstolthet. Ryddig arbeidsplass, minimalt med forstyrrelser, stabil drift fra uke én.',
+  },
+];
+---
+
+<section id="process">
+  <div class="section-head reveal">
+    <div class="section-num">05 — PROSESS</div>
+    <h2 class="section-title">Fra systemskjema<br />til driftsatt anlegg.</h2>
+  </div>
+  <div class="process reveal">
+    {
+      steps.map((s, i) => (
+        <div class="process-step">
+          <div class="step-num">STEG {String(i + 1).padStart(2, '0')}</div>
+          <h4>{s.title}</h4>
+          <p>{s.body}</p>
+        </div>
+      ))
+    }
+  </div>
+</section>

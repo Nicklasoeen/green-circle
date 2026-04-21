@@ -1,0 +1,40 @@
+---
+const pillars = [
+  {
+    title: 'Håndlagd i Norge',
+    body: 'Hver maskin er produsert av nerder i bransjen — fra Hornindal til anlegg over hele landet.',
+  },
+  {
+    title: 'Naturlige kuldemedier',
+    body: 'Kun medier med lavt globalt oppvarmingspotensial. Propan, isobutan, CO₂ og ammoniakk.',
+  },
+  {
+    title: 'Skreddersydde løsninger',
+    body: 'Konstruert for spesifikt formål. Serieproduksjon kan aldri matche en maskin bygget for ditt system.',
+  },
+  {
+    title: 'Enestående COP',
+    body: '3–5 enheter varme for hver kWh tilført elektrisk energi. Smart, stabilt, bærekraftig.',
+  },
+];
+---
+
+<section id="pillars">
+  <div class="section-head reveal">
+    <div class="section-num">01 — PRINSIPPER</div>
+    <h2 class="section-title">
+      Fire ting kjennetegner<br />hver <span class="lime">Green Circle</span>-maskin.
+    </h2>
+  </div>
+  <div class="pillars reveal">
+    {
+      pillars.map((p, i) => (
+        <div class="pillar">
+          <div class="pillar-num">/{String(i + 1).padStart(2, '0')}</div>
+          <h3>{p.title}</h3>
+          <p>{p.body}</p>
+        </div>
+      ))
+    }
+  </div>
+</section>

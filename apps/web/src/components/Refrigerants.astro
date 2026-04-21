@@ -1,0 +1,141 @@
+---
+type Refrigerant = {
+  id: string;
+  code: string;
+  name: string;
+  tabName: string;
+  alt: string;
+  desc: string;
+  gwpChip: string;
+  stats: { label: string; val: string; unit?: string }[];
+};
+
+const refrigerants: Refrigerant[] = [
+  {
+    id: 'r290',
+    code: 'R290',
+    name: 'Propan',
+    tabName: 'Propan',
+    alt: 'Isvann- og varmepumpeanlegg',
+    desc: 'Den mest utbredte løsningen i Green Circle-serien. Propan egner seg svært godt for isvann- og varmepumpeanlegg, og gir en trygg balanse mellom effekt, effektivitet og størrelse.',
+    gwpChip: 'GWP 3',
+    stats: [
+      { label: 'Kapasitet', val: '≤ 500', unit: 'kW' },
+      { label: 'Utgående temp.', val: '60', unit: '°C' },
+      { label: 'GWP', val: '3' },
+    ],
+  },
+  {
+    id: 'r600a',
+    code: 'R600a',
+    name: 'Isobutan',
+    tabName: 'Isobutan',
+    alt: 'Høytemperatur varmepumper',
+    desc: 'Når prosessen krever høyere temperatur enn propan klarer, tar isobutan over. Ideelt for fjernvarme, tørkeprosesser og industriell varmegjenvinning hvor 85 °C er kravet.',
+    gwpChip: 'GWP 3',
+    stats: [
+      { label: 'Kapasitet', val: '≤ 500', unit: 'kW' },
+      { label: 'Utgående temp.', val: '85', unit: '°C' },
+      { label: 'GWP', val: '3' },
+    ],
+  },
+  {
+    id: 'r744',
+    code: 'R744',
+    name: 'Karbondioksid',
+    tabName: 'CO₂ / karbondioksid',
+    alt: 'Bygg og prosesser med både varme- og kjølebehov',
+    desc: 'CO₂ er ideelt for bygg og prosesser som samtidig har både et lavtemperatur kjølebehov og et høytemperatur varmebehov. Energien brukes to ganger — fra kjøling til varmtvann.',
+    gwpChip: 'GWP 1',
+    stats: [
+      { label: 'Kapasitet', val: '≤ 1000', unit: 'kW' },
+      { label: 'Anvendelse', val: 'Dual', unit: 'bruk' },
+      { label: 'GWP', val: '1' },
+    ],
+  },
+  {
+    id: 'r717',
+    code: 'R717',
+    name: 'Ammoniakk',
+    tabName: 'NH₃ / ammoniakk',
+    alt: 'Industrielle kulde- og varmepumpeanlegg',
+    desc: 'Når prosjektet krever flere tusen kilowatt — slakteri, oppdrett, fjernvarme i skala — er ammoniakk det mest effektive valget. GWP på 0, og ytelse uten sidestykke.',
+    gwpChip: 'GWP 0',
+    stats: [
+      { label: 'Kapasitet', val: 'Flere', unit: 'tusen kW' },
+      { label: 'Utgående temp.', val: '80', unit: '°C' },
+      { label: 'GWP', val: '0' },
+    ],
+  },
+];
+---
+
+<section id="refrigerants">
+  <div class="inner">
+    <div class="section-head reveal">
+      <div class="section-num">02 — KULDEMEDIER</div>
+      <h2 class="section-title">
+        Velg medium, <span class="muted">få riktig verktøy for jobben.</span>
+      </h2>
+    </div>
+
+    <div class="ref-layout">
+      <div class="ref-tabs" id="refTabs" role="tablist" aria-label="Kuldemedier">
+        {
+          refrigerants.map((r, i) => (
+            <button
+              class={`ref-tab${i === 0 ? ' active' : ''}`}
+              data-ref={r.id}
+              role="tab"
+              aria-selected={i === 0 ? 'true' : 'false'}
+              aria-controls={`panel-${r.id}`}
+              id={`tab-${r.id}`}
+              type="button"
+            >
+              <span class="dot" />
+              <span>
+                <div class="code">{r.code}</div>
+                <div class="name">{r.tabName}</div>
+              </span>
+              <span class="gwp-chip">{r.gwpChip}</span>
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="ref-content">
+        <div class="ref-panels">
+          {
+            refrigerants.map((r, i) => (
+              <div
+                class={`ref-panel${i === 0 ? ' active' : ''}`}
+                data-panel={r.id}
+                id={`panel-${r.id}`}
+                role="tabpanel"
+                aria-labelledby={`tab-${r.id}`}
+              >
+                <div class="ref-head">
+                  <div class="ref-code">{r.code}</div>
+                  <div class="ref-name">{r.name}</div>
+                </div>
+                <div class="ref-alt">{r.alt}</div>
+                <div class="ref-desc">{r.desc}</div>
+                <div class="ref-stats">
+                  {r.stats.map((s) => (
+                    <div class="ref-stat">
+                      <div class="label">{s.label}</div>
+                      <div class="val">
+                        {s.val}
+                        {s.unit && <span class="unit">{s.unit}</span>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

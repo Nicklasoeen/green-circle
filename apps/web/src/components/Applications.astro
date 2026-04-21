@@ -1,0 +1,48 @@
+---
+const apps = [
+  'Næringsbygg',
+  'Svømmehaller',
+  'Fjernvarmeanlegg',
+  'Fjernkjøleanlegg',
+  'Slakteri — kjøtt',
+  'Slakteri — fisk',
+  'Spekematproduksjon',
+  'Landbasert oppdrett',
+  'Frukt og grønnsaker',
+  'Datasentraler',
+  'Biogass',
+  'Hydrogenproduksjon',
+  'Industrielle prosesser',
+  'Legemiddelproduksjon',
+  '…og mer',
+];
+
+const padCount = (4 - (apps.length % 4)) % 4;
+const pads = Array.from({ length: padCount });
+---
+
+<section id="applications">
+  <div class="section-head reveal">
+    <div class="section-num">03 — BRUKSOMRÅDER</div>
+    <h2 class="section-title">Femten prosesser.<br />En plattform.</h2>
+  </div>
+  <div class="app-grid reveal">
+    {
+      apps.map((name, i) => (
+        <div class="app">
+          <div class="app-num">{String(i + 1).padStart(2, '0')}</div>
+          <div class="app-name">{name}</div>
+          <svg class="app-arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path
+              d="M3 13 13 3M5 3h8v8"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+            />
+          </svg>
+        </div>
+      ))
+    }
+    {pads.map(() => <div class="app pad" aria-hidden="true" />)}
+  </div>
+</section>
