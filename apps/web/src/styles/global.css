@@ -148,10 +148,12 @@ img { max-width: 100%; display: block; }
   box-shadow: 0 0 0 4px rgba(139, 197, 63, 0.2);
 }
 .hero h1 {
-  font-size: clamp(42px, 7.2vw, 108px);
+  /* Tuned for two-column hero: vw + cap so laptop widths don’t dwarf the text column */
+  font-size: clamp(40px, 5.85vw + 0.5rem, 88px);
   font-weight: 800;
   color: var(--ink);
   overflow-wrap: break-word;
+  text-wrap: balance;
 }
 .hero h1 .green { color: var(--sage-dark); }
 .hero h1 .lime { color: var(--lime-ink); }
