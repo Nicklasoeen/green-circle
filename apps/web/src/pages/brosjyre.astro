@@ -1,0 +1,334 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Nav from '../components/Nav.astro'
+import Contact from '../components/Contact.astro'
+
+const pdfHref = '/brosjyre/green-circle-2024.pdf'
+
+const focusAreas = [
+  {
+    title: 'Maksimal driftssikkerhet',
+    body: 'Bygget for industriell drift — anlegg som leverer stabilt år etter år, uten overraskelser.',
+  },
+  {
+    title: 'Høy energieffektivitet',
+    body: 'Gjennomtenkt dimensjonering og valg av teknologi gir en COP som monner i praktisk drift.',
+  },
+  {
+    title: 'Miljøvennlige løsninger',
+    body: 'Naturlige kuldemedier med svært lavt eller null globalt oppvarmingspotensial.',
+  },
+  {
+    title: 'Optimal totaløkonomi',
+    body: 'Lavere energiforbruk, reduserte driftskostnader og lengre levetid — hele livssyklusen medregnet.',
+  },
+]
+
+const mediums = [
+  {
+    code: 'R717',
+    name: 'Ammoniakk',
+    alias: 'NH₃',
+    gwp: 'GWP 0',
+    note: 'Industriell skala. Uten sidestykke.',
+  },
+  {
+    code: 'R744',
+    name: 'Karbondioksid',
+    alias: 'CO₂',
+    gwp: 'GWP 1',
+    note: 'Dual bruk — kjøling og varmtvann.',
+  },
+  {
+    code: 'R290',
+    name: 'Propan',
+    alias: 'C₃H₈',
+    gwp: 'GWP 3',
+    note: 'Isvann og varmepumper ≤ 500 kW.',
+  },
+  {
+    code: 'R600a',
+    name: 'Isobutan',
+    alias: 'C₄H₁₀',
+    gwp: 'GWP 3',
+    note: 'Høytemperatur, opp til 85 °C.',
+  },
+]
+
+const productionSteps = [
+  {label: 'Design og konstruksjon', detail: '2D og 3D — fra kundens prosess til ferdig tegning.'},
+  {label: 'Stål og mekanisk produksjon', detail: 'Bearbeiding og prefabrikasjon på egne verksteder.'},
+  {label: 'Sveising', detail: 'Sertifiserte sveisere, kvalitetssikrede prosedyrer.'},
+  {label: 'Lakkering', detail: 'Overflatebehandling som tåler industriell drift.'},
+  {label: 'Mekanisk montasje', detail: 'Komplett aggregat bygget og rigget internt.'},
+  {label: 'Automatikk & styring', detail: 'Styringssystem tilpasset anleggets faktiske bruk.'},
+  {label: 'FAT — Factory Acceptance Test', detail: 'Funksjonstest før levering ut av fabrikk.'},
+  {label: 'Pakking og klargjøring', detail: 'Leveres komplette og klare til installasjon.'},
+]
+
+const qualityPoints = [
+  'Bygget for industriell drift',
+  'Testet før levering (FAT)',
+  'Leveres komplette og klare til installasjon',
+  'CE-merket i henhold til gjeldende krav',
+]
+
+const valueBullets = [
+  'Lavere energiforbruk',
+  'Reduserte driftskostnader',
+  'Økt driftssikkerhet',
+  'Mindre miljøbelastning',
+]
+---
+
+<Layout
+  title="Brosjyre — Green Circle 2024"
+  description="Les brosjyren for Green Circle — skreddersydde kulde- og varmepumpeaggregater fra Øen Kuldeteknikk. 2024-utgave."
+>
+  <Nav />
+
+  <header class="brochure-hero" id="top">
+    <div class="brochure-hero-inner">
+      <div class="brochure-eyebrow">
+        <span class="eyebrow-dot"></span>
+        Brosjyre · 2024
+      </div>
+      <h1 class="brochure-title display">
+        Skreddersydd kulde- og<br />
+        <span class="lime">varmepumpeteknologi.</span>
+      </h1>
+      <p class="brochure-lead">
+        Green Circle er Øen Kuldeteknikk sin egenutviklede serie med kulde- og
+        varmepumpeaggregater — designet og produsert for å møte kundens unike behov. Her er hele
+        historien, i dybden.
+      </p>
+
+      <div class="brochure-ctas">
+        <a class="btn btn-primary" href={pdfHref} download>
+          Last ned PDF
+          <svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path
+              d="M8 3v9m-4-4 4 4 4-4M3 14h10"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </a>
+        <a class="btn btn-ghost" href={pdfHref} target="_blank" rel="noopener">
+          Åpne i nettleser
+        </a>
+      </div>
+
+      <dl class="brochure-meta">
+        <div>
+          <dt>Utgave</dt>
+          <dd>2024 · V2</dd>
+        </div>
+        <div>
+          <dt>Format</dt>
+          <dd>PDF · 5 sider</dd>
+        </div>
+        <div>
+          <dt>Språk</dt>
+          <dd>Norsk (bokmål)</dd>
+        </div>
+      </dl>
+    </div>
+  </header>
+
+  <!-- FILOSOFI -->
+  <section class="brochure-section">
+    <div class="section-head reveal">
+      <div class="section-num">01 — FILOSOFI</div>
+      <h2 class="section-title">
+        Vi tror ikke på<br />
+        <span class="muted">standardløsninger.</span>
+      </h2>
+    </div>
+
+    <div class="brochure-prose reveal">
+      <p class="brochure-paragraph">
+        Våre aggregater utvikles alltid med utgangspunkt i kundens prosess, energibehov og
+        driftssituasjon. Resultatet er en <span class="lime-ink">optimal balanse</span> mellom ytelse,
+        driftssikkerhet, energieffektivitet og totale levetidskostnader.
+      </p>
+      <p class="brochure-paragraph muted">
+        Hvert Green Circle-anlegg starter med én ting: kundens behov. Basert på dette velger vi
+        riktig systemløsning og teknologi — for å levere anlegg som fungerer ikke bare på papiret,
+        men i praksis over tid.
+      </p>
+    </div>
+  </section>
+
+  <!-- FOKUSOMRÅDER -->
+  <section class="brochure-section">
+    <div class="section-head reveal">
+      <div class="section-num">02 — FOKUSOMRÅDER</div>
+      <h2 class="section-title">
+        Fire prioriteringer<br />som aldri vrakes.
+      </h2>
+    </div>
+
+    <div class="focus-grid reveal">
+      {
+        focusAreas.map((f, i) => (
+          <div class="focus">
+            <div class="focus-num">/{String(i + 1).padStart(2, '0')}</div>
+            <h3>{f.title}</h3>
+            <p>{f.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- NATURLIGE KULDEMEDIER -->
+  <section class="brochure-section">
+    <div class="section-head reveal">
+      <div class="section-num">03 — NATURLIGE KULDEMEDIER</div>
+      <h2 class="section-title">
+        En <span class="lime">selvfølge</span><br />— ikke et tillegg.
+      </h2>
+    </div>
+
+    <p class="brochure-intro-p reveal">
+      Green Circle benytter utelukkende naturlige kuldemedier. Det gir løsninger med svært lavt
+      eller null globalt oppvarmingspotensial, og bidrar til en mer bærekraftig og fremtidsrettet
+      energibruk.
+    </p>
+
+    <div class="medium-grid reveal">
+      {
+        mediums.map((m) => (
+          <article class="medium">
+            <div class="medium-head">
+              <span class="medium-code">{m.code}</span>
+              <span class="medium-chip">{m.gwp}</span>
+            </div>
+            <div class="medium-name">{m.name}</div>
+            <div class="medium-alias mono">{m.alias}</div>
+            <p class="medium-note">{m.note}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- LOKAL PRODUKSJON -->
+  <section class="brochure-section">
+    <div class="section-head reveal">
+      <div class="section-num">04 — LOKAL PRODUKSJON</div>
+      <h2 class="section-title">
+        Full kontroll,<br />fra strek til ferdig&nbsp;aggregat.
+      </h2>
+    </div>
+
+    <p class="brochure-intro-p reveal">
+      Alle Green Circle-aggregater produseres lokalt i Hornindal, på nordvestlandet. Vi leverer
+      komplette anlegg fra egen organisasjon — med full kontroll på hele verdikjeden.
+    </p>
+
+    <ol class="production-steps reveal">
+      {
+        productionSteps.map((s, i) => (
+          <li class="production-step">
+            <div class="prod-num mono">
+              {String(i + 1).padStart(2, '0')}
+              <span class="prod-dash">—</span>
+            </div>
+            <div class="prod-body">
+              <h4>{s.label}</h4>
+              <p>{s.detail}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <!-- KVALITET + MER ENN ET PRODUKT -->
+  <section class="brochure-section">
+    <div class="section-head reveal">
+      <div class="section-num">05 — KVALITET</div>
+      <h2 class="section-title">Bygget for å vare.</h2>
+    </div>
+
+    <div class="quality-grid reveal">
+      <div class="quality-col">
+        <div class="col-kicker mono">KVALITET I ALLE LEDD</div>
+        <p class="col-lede">
+          Vi legger stolthet i håndverket — og bygger løsninger som varer. Våre aggregater er:
+        </p>
+        <ul class="check-list">
+          {
+            qualityPoints.map((q) => (
+              <li>
+                <span class="check" aria-hidden="true">
+                  ✓
+                </span>
+                <span>{q}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="quality-col">
+        <div class="col-kicker mono">MER ENN ET PRODUKT</div>
+        <p class="col-lede">
+          Green Circle handler ikke bare om maskiner. Det handler om å levere løsninger som gir verdi
+          over tid:
+        </p>
+        <ul class="check-list">
+          {
+            valueBullets.map((v) => (
+              <li>
+                <span class="check" aria-hidden="true">
+                  ✓
+                </span>
+                <span>{v}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING STATEMENT -->
+  <section class="brochure-section brochure-closing">
+    <div class="closing-inner reveal">
+      <div class="closing-kicker mono">NYTENKING · SKREDDERSØM · BÆREKRAFT</div>
+      <h2 class="closing-title">
+        Utviklet for kunder<br />som krever <span class="lime">mer</span> enn&nbsp;standardløsninger.
+      </h2>
+      <p class="closing-body">
+        Vi kombinerer dyp prosessforståelse med innovative løsninger og et tydelig miljøfokus — for
+        å levere anlegg som gir verdi, i dag og i fremtiden. Green Circle er med på å skape
+        høykompetansearbeidsplasser og verdier i distrikts-Norge.
+      </p>
+
+      <div class="closing-ctas">
+        <a class="btn btn-primary" href={pdfHref} download>
+          Last ned brosjyren
+          <svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path
+              d="M8 3v9m-4-4 4 4 4-4M3 14h10"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </a>
+        <a class="btn btn-ghost" href="/#contact"> Ta kontakt </a>
+      </div>
+    </div>
+  </section>
+
+  <Contact />
+</Layout>
+
+<script>
+  import '../scripts/main.ts'
+</script>

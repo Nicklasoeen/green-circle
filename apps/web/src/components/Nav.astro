@@ -1,15 +1,23 @@
 ---
+const pathname = Astro.url.pathname;
+const isHome = pathname === '/' || pathname === '';
+const homePrefix = isHome ? '' : '/';
+
 const links = [
-  { href: '#refrigerants', label: 'Kuldemedier' },
-  { href: '#applications', label: 'Bruksområder' },
-  { href: '#case', label: 'Referanser' },
-  { href: '#process', label: 'Prosess' },
-];
+  {href: `${homePrefix}#refrigerants`, label: 'Kuldemedier'},
+  {href: `${homePrefix}#applications`, label: 'Bruksområder'},
+  {href: `${homePrefix}#case`, label: 'Referanser'},
+  {href: `${homePrefix}#process`, label: 'Prosess'},
+  {href: '/brosjyre', label: 'Brosjyre'},
+]
+
+const brandHref = isHome ? '#top' : '/'
+const ctaHref = isHome ? '#contact' : '/#contact'
 ---
 
 <nav class="nav" id="nav">
   <div class="nav-inner">
-    <a href="#top" class="brand" aria-label="Green Circle — by Øen Kuldeteknikk, til toppen">
+    <a href={brandHref} class="brand" aria-label="Green Circle — by Øen Kuldeteknikk, til toppen">
       <img
         src="/assets/logo.png"
         alt="Green Circle — by Øen Kuldeteknikk"
@@ -20,10 +28,16 @@ const links = [
     </a>
 
     <div class="nav-links">
-      {links.map((l) => <a href={l.href}>{l.label}</a>)}
+      {
+        links.map((l) => (
+          <a href={l.href} class:list={[{active: pathname === l.href}]}>
+            {l.label}
+          </a>
+        ))
+      }
     </div>
 
-    <a href="#contact" class="nav-cta">
+    <a href={ctaHref} class="nav-cta">
       Kontakt
       <svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
         <path
