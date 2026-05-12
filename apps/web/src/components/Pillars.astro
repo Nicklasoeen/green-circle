@@ -1,34 +1,76 @@
 ---
-const pillars = [
-  {
-    title: 'Håndlagd i Norge',
-    body: 'Hver maskin er produsert av nerder i bransjen — fra Hornindal til anlegg over hele landet.',
+import type {Lang} from '../i18n';
+
+interface Props {
+  lang?: Lang;
+}
+
+const {lang = 'nb'} = Astro.props;
+
+const copy = {
+  nb: {
+    sectionNum: '01 — PRINSIPPER',
+    titlePrefix: 'Fire ting kjennetegner',
+    titleSuffix: 'hver',
+    highlightedTitle: 'Green Circle-maskin.',
+    titleEnd: '',
+    pillars: [
+      {
+        title: 'Håndlagd i Norge',
+        body: 'Hver maskin er produsert av nerder i bransjen — fra våre verksteder til anlegg over hele landet.',
+      },
+      {
+        title: 'Naturlige kuldemedier',
+        body: 'Kun medier med lavt globalt oppvarmingspotensial. Propan, isobutan, CO₂ og ammoniakk.',
+      },
+      {
+        title: 'Skreddersydde løsninger',
+        body: 'Konstruert for spesifikt formål. Serieproduksjon kan aldri matche en maskin bygget for ditt system.',
+      },
+      {
+        title: 'Enestående COP',
+        body: '3–5 enheter varme for hver kWh tilført elektrisk energi. Smart, stabilt, bærekraftig.',
+      },
+    ],
   },
-  {
-    title: 'Naturlige kuldemedier',
-    body: 'Kun medier med lavt globalt oppvarmingspotensial. Propan, isobutan, CO₂ og ammoniakk.',
+  en: {
+    sectionNum: '01 — PRINCIPLES',
+    titlePrefix: 'Four things define',
+    titleSuffix: 'every',
+    highlightedTitle: 'Green Circle',
+    titleEnd: ' unit.',
+    pillars: [
+      {
+        title: 'Handcrafted in Norway',
+        body: 'Every unit is built by specialists in the field — from our workshops to facilities across the country.',
+      },
+      {
+        title: 'Natural refrigerants',
+        body: 'Only media with low global warming potential. Propane, isobutane, CO₂ and ammonia.',
+      },
+      {
+        title: 'Bespoke solutions',
+        body: 'Engineered for a specific purpose. Series production can never match a machine built for your system.',
+      },
+      {
+        title: 'Outstanding COP',
+        body: '3–5 units of heat for every kWh of electrical energy supplied. Smart, stable and sustainable.',
+      },
+    ],
   },
-  {
-    title: 'Skreddersydde løsninger',
-    body: 'Konstruert for spesifikt formål. Serieproduksjon kan aldri matche en maskin bygget for ditt system.',
-  },
-  {
-    title: 'Enestående COP',
-    body: '3–5 enheter varme for hver kWh tilført elektrisk energi. Smart, stabilt, bærekraftig.',
-  },
-];
+}[lang];
 ---
 
 <section id="pillars">
   <div class="section-head reveal">
-    <div class="section-num">01 — PRINSIPPER</div>
+    <div class="section-num">{copy.sectionNum}</div>
     <h2 class="section-title">
-      Fire ting kjennetegner<br />hver <span class="lime">Green Circle</span>-maskin.
+      {copy.titlePrefix}<br />{copy.titleSuffix} <span class="lime">{copy.highlightedTitle}</span>{copy.titleEnd}
     </h2>
   </div>
   <div class="pillars reveal">
     {
-      pillars.map((p, i) => (
+      copy.pillars.map((p, i) => (
         <div class="pillar">
           <div class="pillar-num">/{String(i + 1).padStart(2, '0')}</div>
           <h3>{p.title}</h3>

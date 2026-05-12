@@ -1,4 +1,6 @@
 ---
+import type {Lang} from '../i18n';
+
 type Refrigerant = {
   id: string;
   code: string;
@@ -10,79 +12,173 @@ type Refrigerant = {
   stats: { label: string; val: string; unit?: string }[];
 };
 
-const refrigerants: Refrigerant[] = [
-  {
-    id: 'r290',
-    code: 'R290',
-    name: 'Propan',
-    tabName: 'Propan',
-    alt: 'Isvann- og varmepumpeanlegg',
-    desc: 'Den mest utbredte løsningen i Green Circle-serien. Propan egner seg svært godt for isvann- og varmepumpeanlegg, og gir en trygg balanse mellom effekt, effektivitet og størrelse.',
-    gwpChip: 'GWP 3',
-    stats: [
-      { label: 'Kapasitet', val: '≤ 500', unit: 'kW' },
-      { label: 'Utgående temp.', val: '60', unit: '°C' },
-      { label: 'GWP', val: '3' },
+interface Props {
+  lang?: Lang;
+}
+
+const {lang = 'nb'} = Astro.props;
+
+const copy: Record<Lang, {
+  sectionNum: string;
+  title: string;
+  mutedTitle: string;
+  pfas: string;
+  tabAria: string;
+  refrigerants: Refrigerant[];
+}> = {
+  nb: {
+    sectionNum: '02 — KULDEMEDIER',
+    title: 'Velg medium,',
+    mutedTitle: 'få riktig verktøy for jobben.',
+    pfas:
+      'Kuldemediene Green Circle benytter tilhører gruppen naturlige kuldemedier og inneholder ikke fluorforbindelser slik HFK-, HFO- eller syntetiske blandingsmedier gjør. De omfattes derfor ikke av PFAS-problematikken som nå får økt oppmerksomhet i EU og internasjonalt.',
+    tabAria: 'Kuldemedier',
+    refrigerants: [
+      {
+        id: 'r290',
+        code: 'R290',
+        name: 'Propan',
+        tabName: 'Propan',
+        alt: 'Isvann- og varmepumpeanlegg',
+        desc: 'Den mest utbredte løsningen i Green Circle-serien. Propan egner seg svært godt for isvann- og varmepumpeanlegg, og gir en trygg balanse mellom effekt, effektivitet og størrelse.',
+        gwpChip: 'GWP 3',
+        stats: [
+          { label: 'Kapasitet', val: '≤ 500', unit: 'kW' },
+          { label: 'Utgående temp.', val: '60', unit: '°C' },
+          { label: 'GWP', val: '3' },
+        ],
+      },
+      {
+        id: 'r600a',
+        code: 'R600a',
+        name: 'Isobutan',
+        tabName: 'Isobutan',
+        alt: 'Høytemperatur varmepumper',
+        desc: 'Når prosessen krever høyere temperatur enn propan klarer, tar isobutan over. Ideelt for fjernvarme, tørkeprosesser og industriell varmegjenvinning hvor 85 °C er kravet.',
+        gwpChip: 'GWP 3',
+        stats: [
+          { label: 'Kapasitet', val: '≤ 500', unit: 'kW' },
+          { label: 'Utgående temp.', val: '85', unit: '°C' },
+          { label: 'GWP', val: '3' },
+        ],
+      },
+      {
+        id: 'r744',
+        code: 'R744',
+        name: 'Karbondioksid',
+        tabName: 'CO₂ / karbondioksid',
+        alt: 'Bygg og prosesser med både varme- og kjølebehov',
+        desc: 'CO₂ er ideelt for bygg og prosesser som samtidig har både et lavtemperatur kjølebehov og et høytemperatur varmebehov. Energien brukes to ganger — fra kjøling til varmtvann.',
+        gwpChip: 'GWP 1',
+        stats: [
+          { label: 'Kapasitet', val: '≤ 1000', unit: 'kW' },
+          { label: 'Anvendelse', val: 'Dual', unit: 'bruk' },
+          { label: 'GWP', val: '1' },
+        ],
+      },
+      {
+        id: 'r717',
+        code: 'R717',
+        name: 'Ammoniakk',
+        tabName: 'NH₃ / ammoniakk',
+        alt: 'Industrielle kulde- og varmepumpeanlegg',
+        desc: 'Når prosjektet krever flere tusen kilowatt — slakteri, oppdrett, fjernvarme i skala — er ammoniakk det mest effektive valget. GWP på 0, og ytelse uten sidestykke.',
+        gwpChip: 'GWP 0',
+        stats: [
+          { label: 'Kapasitet', val: 'Flere', unit: 'tusen kW' },
+          { label: 'Utgående temp.', val: '80', unit: '°C' },
+          { label: 'GWP', val: '0' },
+        ],
+      },
     ],
   },
-  {
-    id: 'r600a',
-    code: 'R600a',
-    name: 'Isobutan',
-    tabName: 'Isobutan',
-    alt: 'Høytemperatur varmepumper',
-    desc: 'Når prosessen krever høyere temperatur enn propan klarer, tar isobutan over. Ideelt for fjernvarme, tørkeprosesser og industriell varmegjenvinning hvor 85 °C er kravet.',
-    gwpChip: 'GWP 3',
-    stats: [
-      { label: 'Kapasitet', val: '≤ 500', unit: 'kW' },
-      { label: 'Utgående temp.', val: '85', unit: '°C' },
-      { label: 'GWP', val: '3' },
+  en: {
+    sectionNum: '02 — REFRIGERANTS',
+    title: 'Choose the medium,',
+    mutedTitle: 'get the right tool for the job.',
+    pfas:
+      'The refrigerants used by Green Circle belong to the group of natural refrigerants and do not contain fluorinated compounds like HFC, HFO or synthetic blended media. They are therefore not part of the PFAS issue that is now receiving increased attention in the EU and internationally.',
+    tabAria: 'Refrigerants',
+    refrigerants: [
+      {
+        id: 'r290',
+        code: 'R290',
+        name: 'Propane',
+        tabName: 'Propane',
+        alt: 'Chilled water and heat pump systems',
+        desc: 'The most widely used solution in the Green Circle range. Propane is highly suitable for chilled water and heat pump systems, with a strong balance between capacity, efficiency and footprint.',
+        gwpChip: 'GWP 3',
+        stats: [
+          { label: 'Capacity', val: '≤ 500', unit: 'kW' },
+          { label: 'Outgoing temp.', val: '60', unit: '°C' },
+          { label: 'GWP', val: '3' },
+        ],
+      },
+      {
+        id: 'r600a',
+        code: 'R600a',
+        name: 'Isobutane',
+        tabName: 'Isobutane',
+        alt: 'High-temperature heat pumps',
+        desc: 'When the process requires higher temperatures than propane can provide, isobutane takes over. Ideal for district heating, drying processes and industrial heat recovery where 85 °C is required.',
+        gwpChip: 'GWP 3',
+        stats: [
+          { label: 'Capacity', val: '≤ 500', unit: 'kW' },
+          { label: 'Outgoing temp.', val: '85', unit: '°C' },
+          { label: 'GWP', val: '3' },
+        ],
+      },
+      {
+        id: 'r744',
+        code: 'R744',
+        name: 'Carbon dioxide',
+        tabName: 'CO₂ / carbon dioxide',
+        alt: 'Buildings and processes with both heating and cooling demand',
+        desc: 'CO₂ is ideal for buildings and processes that have both low-temperature cooling demand and high-temperature heat demand. The energy is used twice — from cooling to hot water.',
+        gwpChip: 'GWP 1',
+        stats: [
+          { label: 'Capacity', val: '≤ 1000', unit: 'kW' },
+          { label: 'Application', val: 'Dual', unit: 'use' },
+          { label: 'GWP', val: '1' },
+        ],
+      },
+      {
+        id: 'r717',
+        code: 'R717',
+        name: 'Ammonia',
+        tabName: 'NH₃ / ammonia',
+        alt: 'Industrial refrigeration and heat pump systems',
+        desc: 'When a project requires several thousand kilowatts — slaughterhouses, aquaculture or district heating at scale — ammonia is the most efficient choice. GWP of 0, with unmatched performance.',
+        gwpChip: 'GWP 0',
+        stats: [
+          { label: 'Capacity', val: 'Several', unit: 'thousand kW' },
+          { label: 'Outgoing temp.', val: '80', unit: '°C' },
+          { label: 'GWP', val: '0' },
+        ],
+      },
     ],
   },
-  {
-    id: 'r744',
-    code: 'R744',
-    name: 'Karbondioksid',
-    tabName: 'CO₂ / karbondioksid',
-    alt: 'Bygg og prosesser med både varme- og kjølebehov',
-    desc: 'CO₂ er ideelt for bygg og prosesser som samtidig har både et lavtemperatur kjølebehov og et høytemperatur varmebehov. Energien brukes to ganger — fra kjøling til varmtvann.',
-    gwpChip: 'GWP 1',
-    stats: [
-      { label: 'Kapasitet', val: '≤ 1000', unit: 'kW' },
-      { label: 'Anvendelse', val: 'Dual', unit: 'bruk' },
-      { label: 'GWP', val: '1' },
-    ],
-  },
-  {
-    id: 'r717',
-    code: 'R717',
-    name: 'Ammoniakk',
-    tabName: 'NH₃ / ammoniakk',
-    alt: 'Industrielle kulde- og varmepumpeanlegg',
-    desc: 'Når prosjektet krever flere tusen kilowatt — slakteri, oppdrett, fjernvarme i skala — er ammoniakk det mest effektive valget. GWP på 0, og ytelse uten sidestykke.',
-    gwpChip: 'GWP 0',
-    stats: [
-      { label: 'Kapasitet', val: 'Flere', unit: 'tusen kW' },
-      { label: 'Utgående temp.', val: '80', unit: '°C' },
-      { label: 'GWP', val: '0' },
-    ],
-  },
-];
+};
+
+const t = copy[lang];
 ---
 
 <section id="refrigerants">
   <div class="inner">
     <div class="section-head reveal">
-      <div class="section-num">02 — KULDEMEDIER</div>
-      <h2 class="section-title">
-        Velg medium, <span class="muted">få riktig verktøy for jobben.</span>
-      </h2>
+      <div class="section-num">{t.sectionNum}</div>
+      <div>
+        <h2 class="section-title">
+          {t.title} <span class="muted">{t.mutedTitle}</span>
+        </h2>
+        <p class="ref-pfas">{t.pfas}</p>
+      </div>
     </div>
 
     <div class="ref-layout">
-      <div class="ref-tabs" id="refTabs" role="tablist" aria-label="Kuldemedier">
+      <div class="ref-tabs" id="refTabs" role="tablist" aria-label={t.tabAria}>
         {
-          refrigerants.map((r, i) => (
+          t.refrigerants.map((r, i) => (
             <button
               class={`ref-tab${i === 0 ? ' active' : ''}`}
               data-ref={r.id}
@@ -106,7 +202,7 @@ const refrigerants: Refrigerant[] = [
       <div class="ref-content">
         <div class="ref-panels">
           {
-            refrigerants.map((r, i) => (
+            t.refrigerants.map((r, i) => (
               <div
                 class={`ref-panel${i === 0 ? ' active' : ''}`}
                 data-panel={r.id}

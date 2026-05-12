@@ -1,23 +1,54 @@
 ---
+import type {Lang} from '../i18n';
+import {getAlternatePath, getBrochurePath, getHomePath} from '../i18n';
+
+interface Props {
+  lang?: Lang;
+}
+
+const {lang = 'nb'} = Astro.props;
 const pathname = Astro.url.pathname;
-const isHome = pathname === '/' || pathname === '';
-const homePrefix = isHome ? '' : '/';
+const homePath = getHomePath(lang);
+const isHome = pathname === homePath || pathname === homePath.slice(0, -1);
+const homePrefix = isHome ? '' : homePath;
+
+const labels = {
+  nb: {
+    refrigerants: 'Kuldemedier',
+    applications: 'Bruksområder',
+    references: 'Referanser',
+    process: 'Prosess',
+    brochure: 'Brosjyre',
+    contact: 'Kontakt',
+    brandLabel: 'Green Circle — by Øen Kuldeteknikk, til toppen',
+  },
+  en: {
+    refrigerants: 'Refrigerants',
+    applications: 'Applications',
+    references: 'References',
+    process: 'Process',
+    brochure: 'Brochure',
+    contact: 'Contact',
+    brandLabel: 'Green Circle — by Øen Kuldeteknikk, to top',
+  },
+}[lang];
 
 const links = [
-  {href: `${homePrefix}#refrigerants`, label: 'Kuldemedier'},
-  {href: `${homePrefix}#applications`, label: 'Bruksområder'},
-  {href: `${homePrefix}#case`, label: 'Referanser'},
-  {href: `${homePrefix}#process`, label: 'Prosess'},
-  {href: '/brosjyre', label: 'Brosjyre'},
+  {href: `${homePrefix}#refrigerants`, label: labels.refrigerants},
+  {href: `${homePrefix}#applications`, label: labels.applications},
+  {href: `${homePrefix}#case`, label: labels.references},
+  {href: `${homePrefix}#process`, label: labels.process},
+  {href: getBrochurePath(lang), label: labels.brochure},
 ]
 
-const brandHref = isHome ? '#top' : '/'
-const ctaHref = isHome ? '#contact' : '/#contact'
+const brandHref = isHome ? '#top' : homePath
+const ctaHref = isHome ? '#contact' : `${homePath}#contact`
+const alternateHref = getAlternatePath(pathname, lang);
 ---
 
 <nav class="nav" id="nav">
   <div class="nav-inner">
-    <a href={brandHref} class="brand" aria-label="Green Circle — by Øen Kuldeteknikk, til toppen">
+    <a href={brandHref} class="brand" aria-label={labels.brandLabel}>
       <img
         src="/assets/logo.png"
         alt="Green Circle — by Øen Kuldeteknikk"
@@ -37,18 +68,24 @@ const ctaHref = isHome ? '#contact' : '/#contact'
       }
     </div>
 
-    <a href={ctaHref} class="nav-cta">
-      Kontakt
-      <svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <path
-          d="M3 8h10m-4-4 4 4-4 4"
-          stroke="currentColor"
-          stroke-width="1.8"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-    </a>
+    <div class="nav-actions">
+      <a href={alternateHref} class="language-switcher" aria-label={lang === 'en' ? 'Switch to Norwegian' : 'Switch to English'}>
+        <span class:list={[{active: lang === 'nb'}]}>NO</span>
+        <span class:list={[{active: lang === 'en'}]}>EN</span>
+      </a>
+      <a href={ctaHref} class="nav-cta">
+        {labels.contact}
+        <svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path
+            d="M3 8h10m-4-4 4 4-4 4"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </a>
+    </div>
   </div>
   <div class="progress" id="progress"></div>
 </nav>

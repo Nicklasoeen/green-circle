@@ -1,32 +1,61 @@
 ---
+import type {Lang} from '../i18n';
+
+interface Props {
+  lang?: Lang;
+}
+
+const {lang = 'nb'} = Astro.props;
 const year = new Date().getFullYear();
+
+const copy = {
+  nb: {
+    titleLine1: 'La oss',
+    titleLine2: 'bygge noe',
+    titleHighlight: 'bærekraftig.',
+    lead:
+      'Ta kontakt for en uforpliktende samtale om kuldemedium, dimensjonering og leveranse — på telefon, e-post eller ved besøk i våre lokaler.',
+    address: 'Adresse',
+    phone: 'Telefon',
+    email: 'E-post',
+    footer: 'KVALITET SOM VIKTIGSTE SALGSFAKTOR',
+  },
+  en: {
+    titleLine1: "Let's",
+    titleLine2: 'build something',
+    titleHighlight: 'sustainable.',
+    lead:
+      'Get in touch for a no-obligation conversation about refrigerant, dimensioning and delivery — by phone, email or a visit to our facilities.',
+    address: 'Address',
+    phone: 'Phone',
+    email: 'Email',
+    footer: 'QUALITY AS THE MOST IMPORTANT SALES FACTOR',
+  },
+}[lang];
 ---
 
 <section id="contact" class="contact">
   <div class="inner">
     <div class="contact-main">
       <h2 class="contact-title reveal">
-        La oss<br />bygge noe <span class="lime">bærekraftig.</span>
+        {copy.titleLine1}<br />{copy.titleLine2} <span class="lime">{copy.titleHighlight}</span>
       </h2>
-      <p class="contact-lead reveal">
-        Ta kontakt for en uforpliktende samtale om kuldemedium, dimensjonering og leveranse — på telefon,
-        e-post eller ved besøk i Hornindal.
-      </p>
+      <p class="contact-lead reveal">{copy.lead}</p>
 
       <ul class="contact-list reveal" role="list">
         <li class="contact-list-item">
-          <span class="contact-label">Adresse</span>
+          <span class="contact-label">{copy.address}</span>
           <div class="contact-body">
             <span>Ytrehornsvegen 58</span>
             <span>6763 Hornindal</span>
           </div>
         </li>
         <li class="contact-list-item">
-          <span class="contact-label">Telefon</span>
+          <span class="contact-label">{copy.phone}</span>
           <a class="contact-link" href="tel:+4757878400">+47 57 87 84 00</a>
         </li>
         <li class="contact-list-item">
-          <span class="contact-label">E-post</span>
+          <span class="contact-label">{copy.email}</span>
           <a class="contact-link" href="mailto:post@kuldeteknikk.com">post@kuldeteknikk.com</a>
         </li>
       </ul>
@@ -34,7 +63,7 @@ const year = new Date().getFullYear();
 
     <div class="foot reveal">
       <div>© {year} ØEN KULDETEKNIKK AS — GREEN CIRCLE</div>
-      <div>KVALITET SOM VIKTIGSTE SALGSFAKTOR</div>
+      <div>{copy.footer}</div>
     </div>
   </div>
 </section>

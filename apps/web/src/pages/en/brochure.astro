@@ -1,0 +1,329 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import Nav from '../../components/Nav.astro'
+import Contact from '../../components/Contact.astro'
+
+const pdfHref = '/brosjyre/green-circle-2024.pdf'
+const lang = 'en'
+
+const focusAreas = [
+  {
+    title: 'Maximum operational reliability',
+    body: 'Built for industrial operation — systems that deliver stable performance year after year, without surprises.',
+  },
+  {
+    title: 'High energy efficiency',
+    body: 'Thoughtful dimensioning and technology choices provide a COP that matters in real-world operation.',
+  },
+  {
+    title: 'Environmentally friendly solutions',
+    body: 'Natural refrigerants with very low or zero global warming potential.',
+  },
+  {
+    title: 'Optimal total economy',
+    body: 'Lower energy consumption, reduced operating costs and longer lifetime — across the full life cycle.',
+  },
+]
+
+const mediums = [
+  {
+    code: 'R717',
+    name: 'Ammonia',
+    alias: 'NH₃',
+    gwp: 'GWP 0',
+    note: 'Industrial scale. Unmatched performance.',
+  },
+  {
+    code: 'R744',
+    name: 'Carbon dioxide',
+    alias: 'CO₂',
+    gwp: 'GWP 1',
+    note: 'Dual use — cooling and hot water.',
+  },
+  {
+    code: 'R290',
+    name: 'Propane',
+    alias: 'C₃H₈',
+    gwp: 'GWP 3',
+    note: 'Chilled water and heat pumps ≤ 500 kW.',
+  },
+  {
+    code: 'R600a',
+    name: 'Isobutane',
+    alias: 'C₄H₁₀',
+    gwp: 'GWP 3',
+    note: 'High temperature, up to 85 °C.',
+  },
+]
+
+const productionSteps = [
+  {label: 'Design and engineering', detail: "2D and 3D — from the customer's process to finished drawings."},
+  {label: 'Steel and mechanical production', detail: 'Machining and prefabrication in our own workshops.'},
+  {label: 'Welding', detail: 'Certified welders and quality-assured procedures.'},
+  {label: 'Painting', detail: 'Surface treatment made for industrial operation.'},
+  {label: 'Mechanical assembly', detail: 'Complete unit built and rigged internally.'},
+  {label: 'Automation & control', detail: "Control system adapted to the plant's actual use."},
+  {label: 'FAT — Factory Acceptance Test', detail: 'Functional testing before delivery from the factory.'},
+  {label: 'Packing and preparation', detail: 'Delivered complete and ready for installation.'},
+]
+
+const qualityPoints = [
+  'Built for industrial operation',
+  'Tested before delivery (FAT)',
+  'Delivered complete and ready for installation',
+  'CE marked according to applicable requirements',
+]
+
+const valueBullets = [
+  'Lower energy consumption',
+  'Reduced operating costs',
+  'Increased operational reliability',
+  'Lower environmental impact',
+]
+---
+
+<Layout
+  lang={lang}
+  title="Brochure — Green Circle 2024"
+  description="Read the Green Circle brochure — bespoke refrigeration and heat pump units from Øen Kuldeteknikk. 2024 edition."
+>
+  <Nav lang={lang} />
+
+  <header class="brochure-hero" id="top">
+    <div class="brochure-hero-inner">
+      <div class="brochure-eyebrow">
+        <span class="eyebrow-dot"></span>
+        Brochure · 2024
+      </div>
+      <h1 class="brochure-title display">
+        Bespoke refrigeration and<br />
+        <span class="lime">heat pump technology.</span>
+      </h1>
+      <p class="brochure-lead">
+        Green Circle is Øen Kuldeteknikk's proprietary range of refrigeration and heat pump units —
+        designed and produced to meet each customer's unique needs. Here is the full story, in depth.
+      </p>
+
+      <div class="brochure-ctas">
+        <a class="btn btn-primary" href={pdfHref} download>
+          Download PDF
+          <svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path
+              d="M8 3v9m-4-4 4 4 4-4M3 14h10"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </a>
+        <a class="btn btn-ghost" href={pdfHref} target="_blank" rel="noopener">
+          Open in browser
+        </a>
+      </div>
+
+      <dl class="brochure-meta">
+        <div>
+          <dt>Edition</dt>
+          <dd>2024 · V2</dd>
+        </div>
+        <div>
+          <dt>Format</dt>
+          <dd>PDF · 5 pages</dd>
+        </div>
+        <div>
+          <dt>Language</dt>
+          <dd>English page</dd>
+        </div>
+      </dl>
+    </div>
+  </header>
+
+  <section class="brochure-section">
+    <div class="section-head reveal">
+      <div class="section-num">01 — PHILOSOPHY</div>
+      <h2 class="section-title">
+        We do not believe in<br />
+        <span class="muted">standard solutions.</span>
+      </h2>
+    </div>
+
+    <div class="brochure-prose reveal">
+      <p class="brochure-paragraph">
+        Our units are always developed from the customer's process, energy needs and operating
+        situation. The result is an <span class="lime-ink">optimal balance</span> of performance,
+        operational reliability, energy efficiency and total lifetime costs.
+      </p>
+      <p class="brochure-paragraph muted">
+        Every Green Circle plant starts with one thing: the customer's needs. Based on this, we
+        choose the right system solution and technology — to deliver plants that work not only on
+        paper, but in practice over time.
+      </p>
+    </div>
+  </section>
+
+  <section class="brochure-section">
+    <div class="section-head reveal">
+      <div class="section-num">02 — FOCUS AREAS</div>
+      <h2 class="section-title">
+        Four priorities<br />that are never compromised.
+      </h2>
+    </div>
+
+    <div class="focus-grid reveal">
+      {
+        focusAreas.map((f, i) => (
+          <div class="focus">
+            <div class="focus-num">/{String(i + 1).padStart(2, '0')}</div>
+            <h3>{f.title}</h3>
+            <p>{f.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="brochure-section">
+    <div class="section-head reveal">
+      <div class="section-num">03 — NATURAL REFRIGERANTS</div>
+      <h2 class="section-title">
+        A <span class="lime">given</span><br />— not an add-on.
+      </h2>
+    </div>
+
+    <p class="brochure-intro-p reveal">
+      Green Circle uses natural refrigerants exclusively. This provides solutions with very low or
+      zero global warming potential and contributes to more sustainable, future-oriented energy use.
+    </p>
+
+    <div class="medium-grid reveal">
+      {
+        mediums.map((m) => (
+          <article class="medium">
+            <div class="medium-head">
+              <span class="medium-code">{m.code}</span>
+              <span class="medium-chip">{m.gwp}</span>
+            </div>
+            <div class="medium-name">{m.name}</div>
+            <div class="medium-alias mono">{m.alias}</div>
+            <p class="medium-note">{m.note}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="brochure-section">
+    <div class="section-head reveal">
+      <div class="section-num">04 — LOCAL PRODUCTION</div>
+      <h2 class="section-title">
+        Full control,<br />from sketch to finished&nbsp;unit.
+      </h2>
+    </div>
+
+    <p class="brochure-intro-p reveal">
+      All Green Circle units are produced locally in north-western Norway. We deliver complete
+      plants from our own organization — with full control of the entire value chain.
+    </p>
+
+    <ol class="production-steps reveal">
+      {
+        productionSteps.map((s, i) => (
+          <li class="production-step">
+            <div class="prod-num mono">
+              {String(i + 1).padStart(2, '0')}
+              <span class="prod-dash">—</span>
+            </div>
+            <div class="prod-body">
+              <h4>{s.label}</h4>
+              <p>{s.detail}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="brochure-section">
+    <div class="section-head reveal">
+      <div class="section-num">05 — QUALITY</div>
+      <h2 class="section-title">Built to last.</h2>
+    </div>
+
+    <div class="quality-grid reveal">
+      <div class="quality-col">
+        <div class="col-kicker mono">QUALITY IN EVERY STEP</div>
+        <p class="col-lede">
+          We take pride in the craftsmanship — and build solutions that last. Our units are:
+        </p>
+        <ul class="check-list">
+          {
+            qualityPoints.map((q) => (
+              <li>
+                <span class="check" aria-hidden="true">
+                  ✓
+                </span>
+                <span>{q}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="quality-col">
+        <div class="col-kicker mono">MORE THAN A PRODUCT</div>
+        <p class="col-lede">
+          Green Circle is not just about machines. It is about delivering solutions that create
+          value over time:
+        </p>
+        <ul class="check-list">
+          {
+            valueBullets.map((v) => (
+              <li>
+                <span class="check" aria-hidden="true">
+                  ✓
+                </span>
+                <span>{v}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="brochure-section brochure-closing">
+    <div class="closing-inner reveal">
+      <div class="closing-kicker mono">INNOVATION · BESPOKE ENGINEERING · SUSTAINABILITY</div>
+      <h2 class="closing-title">
+        Developed for customers<br />who demand <span class="lime">more</span> than&nbsp;standard
+        solutions.
+      </h2>
+      <p class="closing-body">
+        We combine deep process understanding with innovative solutions and a clear environmental
+        focus — to deliver plants that create value today and in the future. Green Circle helps
+        create high-skill jobs and value in rural Norway.
+      </p>
+
+      <div class="closing-ctas">
+        <a class="btn btn-primary" href={pdfHref} download>
+          Download brochure
+          <svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path
+              d="M8 3v9m-4-4 4 4 4-4M3 14h10"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </a>
+        <a class="btn btn-ghost" href="/en/#contact"> Contact us </a>
+      </div>
+    </div>
+  </section>
+
+  <Contact lang={lang} />
+</Layout>
+
+<script>
+  import '../../scripts/main.ts'
+</script>

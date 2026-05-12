@@ -1,34 +1,82 @@
 ---
-const steps = [
-  {
-    title: 'Behovsanalyse',
-    body: 'Vi går gjennom energikilder, temperaturkrav og eksisterende systemer — og forstår prosessen din før vi tegner noe.',
+import type {Lang} from '../i18n';
+
+interface Props {
+  lang?: Lang;
+}
+
+const {lang = 'nb'} = Astro.props;
+
+const copy = {
+  nb: {
+    sectionNum: '05 — PROSESS',
+    title: 'Fra systemskjema',
+    titleLine2: 'til driftsatt anlegg.',
+    stepPrefix: 'STEG',
+    steps: [
+      {
+        title: 'Behovsanalyse',
+        body: 'Vi går gjennom energikilder, temperaturkrav og eksisterende systemer — og forstår prosessen din før vi tegner noe.',
+      },
+      {
+        title: 'Systemskjema',
+        body: 'Med leveransebeskrivelse og skjema på plass velges riktig kuldemedium og dimensjonering.',
+      },
+      {
+        title: 'Håndbygging',
+        body: 'Maskinene bygges og ferdigstilles komplett i våre lokaler — som regel inne i et større energisystem med pumper, shunter, tanker og automatikk.',
+      },
+      {
+        title: 'FAT-testing',
+        body: 'I vår moderne FAT-stasjon testes, justeres og optimaliseres aggregatene grundig før levering. Maskinene kjøres under reelle driftsforhold — med de temperaturene og belastningene de skal arbeide med hos sluttkunden. Dette gir oss mulighet til å verifisere funksjon, kapasitet og energieffektivitet, og dokumentere ytelsen før anlegget forlater fabrikken.',
+      },
+      {
+        title: 'Installasjon & drift',
+        body: 'For mange prosjekter står vi også for installasjon og idriftsettelse, slik at kunden får en trygg overgang fra produksjon til stabil drift. Med god planlegging, ryddig gjennomføring og grundig testing sikrer vi en effektiv oppstart og et pålitelig anlegg fra dag én.',
+      },
+    ],
   },
-  {
-    title: 'Systemskjema',
-    body: 'Med leveransebeskrivelse og skjema på plass velges riktig kuldemedium og dimensjonering.',
+  en: {
+    sectionNum: '05 — PROCESS',
+    title: 'From system diagram',
+    titleLine2: 'to commissioned plant.',
+    stepPrefix: 'STEP',
+    steps: [
+      {
+        title: 'Needs analysis',
+        body: 'We review energy sources, temperature requirements and existing systems — and understand your process before drawing anything.',
+      },
+      {
+        title: 'System diagram',
+        body: 'With delivery description and diagram in place, the right refrigerant and dimensioning are selected.',
+      },
+      {
+        title: 'Hand-built production',
+        body: 'The units are built and fully completed at our facilities — usually as part of a larger energy system with pumps, shunts, tanks and automation.',
+      },
+      {
+        title: 'FAT testing',
+        body: 'In our modern FAT station, the units are thoroughly tested, adjusted and optimized before delivery. The machines are run under real operating conditions — with the temperatures and loads they will work with at the end customer. This allows us to verify function, capacity and energy efficiency, and document performance before the plant leaves the factory.',
+      },
+      {
+        title: 'Installation & operation',
+        body: 'For many projects, we also handle installation and commissioning, giving the customer a secure transition from production to stable operation. With careful planning, tidy execution and thorough testing, we ensure an efficient start-up and a reliable plant from day one.',
+      },
+    ],
   },
-  {
-    title: 'Håndbygging',
-    body: 'Maskinen prefabrikkeres i Hornindal — som regel inne i et større energisystem med pumper, shunter, tanker og automatikk.',
-  },
-  {
-    title: 'Installasjon & drift',
-    body: 'Montert av norske fagfolk med yrkesstolthet. Ryddig arbeidsplass, minimalt med forstyrrelser, stabil drift fra uke én.',
-  },
-];
+}[lang];
 ---
 
 <section id="process">
   <div class="section-head reveal">
-    <div class="section-num">05 — PROSESS</div>
-    <h2 class="section-title">Fra systemskjema<br />til driftsatt anlegg.</h2>
+    <div class="section-num">{copy.sectionNum}</div>
+    <h2 class="section-title">{copy.title}<br />{copy.titleLine2}</h2>
   </div>
   <div class="process reveal">
     {
-      steps.map((s, i) => (
+      copy.steps.map((s, i) => (
         <div class="process-step">
-          <div class="step-num">STEG {String(i + 1).padStart(2, '0')}</div>
+          <div class="step-num">{copy.stepPrefix} {String(i + 1).padStart(2, '0')}</div>
           <h4>{s.title}</h4>
           <p>{s.body}</p>
         </div>

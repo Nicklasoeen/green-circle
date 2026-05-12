@@ -1,34 +1,71 @@
 ---
-const apps = [
-  'Næringsbygg',
-  'Svømmehaller',
-  'Fjernvarmeanlegg',
-  'Fjernkjøleanlegg',
-  'Slakteri — kjøtt',
-  'Slakteri — fisk',
-  'Spekematproduksjon',
-  'Landbasert oppdrett',
-  'Frukt og grønnsaker',
-  'Datasentraler',
-  'Biogass',
-  'Hydrogenproduksjon',
-  'Industrielle prosesser',
-  'Legemiddelproduksjon',
-  '…og mer',
-];
+import type {Lang} from '../i18n';
 
-const padCount = (4 - (apps.length % 4)) % 4;
+interface Props {
+  lang?: Lang;
+}
+
+const {lang = 'nb'} = Astro.props;
+
+const copy = {
+  nb: {
+    sectionNum: '03 — BRUKSOMRÅDER',
+    title: 'Femten prosesser.',
+    titleLine2: 'En plattform.',
+    apps: [
+      'Næringsbygg',
+      'Svømmehaller',
+      'Fjernvarmeanlegg',
+      'Fjernkjøleanlegg',
+      'Slakteri — kjøtt',
+      'Slakteri — fisk',
+      'Spekematproduksjon',
+      'Landbasert oppdrett',
+      'Frukt og grønnsaker',
+      'Datasentraler',
+      'Biogass',
+      'Hydrogenproduksjon',
+      'Industrielle prosesser',
+      'Legemiddelproduksjon',
+      '…og mer',
+    ],
+  },
+  en: {
+    sectionNum: '03 — APPLICATIONS',
+    title: 'Fifteen processes.',
+    titleLine2: 'One platform.',
+    apps: [
+      'Commercial buildings',
+      'Swimming pools',
+      'District heating plants',
+      'District cooling plants',
+      'Slaughterhouses — meat',
+      'Slaughterhouses — fish',
+      'Cured meat production',
+      'Land-based aquaculture',
+      'Fruit and vegetables',
+      'Data centres',
+      'Biogas',
+      'Hydrogen production',
+      'Industrial processes',
+      'Pharmaceutical production',
+      '…and more',
+    ],
+  },
+}[lang];
+
+const padCount = (4 - (copy.apps.length % 4)) % 4;
 const pads = Array.from({ length: padCount });
 ---
 
 <section id="applications">
   <div class="section-head reveal">
-    <div class="section-num">03 — BRUKSOMRÅDER</div>
-    <h2 class="section-title">Femten prosesser.<br />En plattform.</h2>
+    <div class="section-num">{copy.sectionNum}</div>
+    <h2 class="section-title">{copy.title}<br />{copy.titleLine2}</h2>
   </div>
   <div class="app-grid reveal">
     {
-      apps.map((name, i) => (
+      copy.apps.map((name, i) => (
         <div class="app">
           <div class="app-num">{String(i + 1).padStart(2, '0')}</div>
           <div class="app-name">{name}</div>

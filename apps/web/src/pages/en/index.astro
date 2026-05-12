@@ -1,0 +1,35 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Hero from '../../components/Hero.astro';
+import CustomerLogos from '../../components/CustomerLogos.astro';
+import PhotoStrip from '../../components/PhotoStrip.astro';
+import Pillars from '../../components/Pillars.astro';
+import Refrigerants from '../../components/Refrigerants.astro';
+import Applications from '../../components/Applications.astro';
+import Case from '../../components/Case.astro';
+import Process from '../../components/Process.astro';
+import Contact from '../../components/Contact.astro';
+
+const lang = 'en';
+---
+
+<Layout
+  lang={lang}
+  description="Handcrafted refrigeration and heat pump units with natural refrigerants. R290, R600a, R744 and R717 — produced in Norway, delivered nationwide."
+>
+  <Nav lang={lang} />
+  <Hero lang={lang} />
+  <CustomerLogos lang={lang} />
+  <PhotoStrip lang={lang} />
+  <Pillars lang={lang} />
+  <Refrigerants lang={lang} />
+  <Applications lang={lang} />
+  <Case lang={lang} />
+  <Process lang={lang} />
+  <Contact lang={lang} />
+</Layout>
+
+<script>
+  import '../../scripts/main.ts';
+</script>

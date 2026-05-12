@@ -1,0 +1,60 @@
+---
+import type {Lang} from '../i18n';
+
+interface Props {
+  lang?: Lang;
+}
+
+const {lang = 'nb'} = Astro.props;
+const customers = [
+  {name: 'Equinor', logo: '/assets/customer-logos/Equinor_HORIZ_logo_RGB_WHITE.png', slug: 'equinor'},
+  {name: 'Grilstad', logo: '/assets/customer-logos/Grilstad_hvit.webp', slug: 'grilstad'},
+  {name: 'Nortura', logo: '/assets/customer-logos/Nortura%20Logo%20negativ%20u%20tekst.png', slug: 'nortura'},
+  {name: 'Mowi', logo: '/assets/customer-logos/mowi-logo-dark.svg?v=2', slug: 'mowi'},
+  {
+    name: 'SalMar',
+    logo: '/assets/customer-logos/SalMar%20logo%20med%20payoff%20RGB%201920.png',
+    slug: 'salmar',
+    removeBackground: true,
+  },
+];
+
+const labels = {
+  nb: {
+    aria: 'Utvalgte kunder',
+    kicker: 'Utvalgte kunder',
+  },
+  en: {
+    aria: 'Selected customers',
+    kicker: 'Selected customers',
+  },
+}[lang];
+---
+
+<section class="customer-logos" aria-label={labels.aria}>
+  <div class="customer-logos-inner">
+    <div class="customer-logos-kicker">{labels.kicker}</div>
+    <div class="customer-logo-marquee" aria-hidden="true">
+      <div class="customer-logo-track">
+        {[...customers, ...customers].map((customer) => (
+          <span
+            class:list={[
+              'customer-logo',
+              {
+                'has-image': Boolean(customer.logo),
+                'remove-bg': customer.removeBackground,
+                [`logo-${customer.slug}`]: Boolean(customer.slug),
+              },
+            ]}
+          >
+            {customer.logo ? (
+              <img src={customer.logo} alt="" loading="lazy" decoding="async" />
+            ) : (
+              customer.name
+            )}
+          </span>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

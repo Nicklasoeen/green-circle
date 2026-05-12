@@ -80,6 +80,31 @@ img { max-width: 100%; display: block; }
   transition: transform 0.2s;
 }
 .nav-links a:hover::after { transform: scaleX(1); }
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink-60);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+.language-switcher span {
+  padding: 6px 8px;
+  border-radius: 999px;
+  line-height: 1;
+}
+.language-switcher span.active {
+  background: rgba(232, 237, 226, 0.1);
+  color: var(--ink);
+}
 .nav-cta {
   background: var(--lime);
   color: #0D1410;
@@ -113,6 +138,8 @@ img { max-width: 100%; display: block; }
   .nav-inner { padding: 14px 20px; gap: 16px; }
   .brand-logo { height: 36px; }
   .nav-cta { padding: 9px 16px; font-size: 12px; }
+  .language-switcher { font-size: 10px; }
+  .language-switcher span { padding: 5px 7px; }
 }
 
 /* ====== HERO ====== */
@@ -315,6 +342,99 @@ img { max-width: 100%; display: block; }
   background: radial-gradient(circle at 60% 40%, transparent 40%, rgba(8, 14, 7, 0.4) 100%);
 }
 
+/* ====== CUSTOMER LOGOS ====== */
+.customer-logos {
+  max-width: none;
+  padding: 0;
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: rgba(8, 14, 7, 0.72);
+}
+.customer-logos-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 24px 0 24px 40px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 36px;
+  align-items: center;
+}
+.customer-logos-kicker {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sage-dark);
+  white-space: nowrap;
+}
+.customer-logo-marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+.customer-logo-track {
+  display: flex;
+  width: max-content;
+  animation: logo-marquee 28s linear infinite;
+}
+.customer-logo {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 210px;
+  padding: 0 28px;
+  font-family: 'Archivo', sans-serif;
+  font-size: clamp(24px, 2.5vw, 34px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: rgba(232, 237, 226, 0.8);
+  white-space: nowrap;
+  min-height: 64px;
+}
+.customer-logo.has-image {
+  background: transparent;
+}
+.customer-logo img {
+  width: var(--logo-width, 170px);
+  height: var(--logo-height, 44px);
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.82;
+}
+.customer-logo.logo-equinor img {
+  --logo-width: 230px;
+  --logo-height: 62px;
+}
+.customer-logo.logo-grilstad img {
+  --logo-width: 205px;
+  --logo-height: 52px;
+}
+.customer-logo.logo-nortura img {
+  --logo-width: 190px;
+  --logo-height: 44px;
+}
+.customer-logo.logo-mowi img {
+  --logo-width: 190px;
+  --logo-height: 48px;
+}
+.customer-logo.logo-salmar img {
+  --logo-width: 210px;
+  --logo-height: 50px;
+}
+.customer-logo.remove-bg img {
+  filter: invert(1) grayscale(1) brightness(2.2) contrast(1.1);
+  mix-blend-mode: screen;
+}
+@keyframes logo-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .customer-logo-track { animation: none; }
+}
+
 /* ====== PHOTO STRIP ====== */
 .img-strip {
   width: 100%;
@@ -458,6 +578,14 @@ section {
 #refrigerants .section-num { color: var(--lime); }
 #refrigerants .section-title { color: var(--ink); }
 #refrigerants .section-title .muted { color: rgba(232, 237, 226, 0.4); }
+#refrigerants .section-head { align-items: start; }
+.ref-pfas {
+  max-width: 780px;
+  margin-top: 28px;
+  font-size: 17px;
+  line-height: 1.65;
+  color: rgba(232, 237, 226, 0.72);
+}
 
 .ref-layout {
   display: grid;
@@ -584,8 +712,19 @@ section {
 }
 
 @media (max-width: 800px) {
+  .customer-logos-inner {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 22px 0 22px 20px;
+  }
+  .customer-logo { width: 170px; padding: 0 20px; min-height: 54px; }
+  .customer-logo img {
+    width: calc(var(--logo-width, 150px) * 0.82);
+    height: calc(var(--logo-height, 38px) * 0.82);
+  }
   #refrigerants { padding: 80px 0; }
   #refrigerants .inner { padding: 0 20px; }
+  .ref-pfas { font-size: 16px; margin-top: 22px; }
   .ref-tab { padding: 16px 18px; gap: 12px; }
   .ref-tab .code { font-size: 20px; }
   .ref-tab .name { font-size: 11px; }
@@ -604,6 +743,7 @@ section {
 @media (max-width: 500px) {
   #refrigerants { padding: 64px 0; }
   #refrigerants .inner { padding: 0 18px; }
+  .customer-logos-inner { padding-left: 18px; }
   .ref-content .ref-code { font-size: 48px; }
   .ref-content .ref-name { font-size: 18px; }
   .ref-stats { grid-template-columns: 1fr 1fr; }
@@ -754,7 +894,7 @@ section {
 /* ====== PROCESS ====== */
 .process {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 0;
 }
 .process-step {

@@ -1,21 +1,76 @@
 ---
-const specs = [
-  {
-    num: '4',
-    unit: 'medier',
-    label: 'R290 · R600a · R744 · R717',
+import type {Lang} from '../i18n';
+
+interface Props {
+  lang?: Lang;
+}
+
+const {lang = 'nb'} = Astro.props;
+
+const copy = {
+  nb: {
+    eyebrow: 'Kulde- og varmepumpeaggregater',
+    title: {
+      line1: 'Naturlige',
+      line2: 'kuldemedier.',
+      lime: 'Håndlagd',
+      green: 'ingeniørkunst.',
+    },
+    lead:
+      'Green Circle er en serie skreddersydde kulde- og varmepumpeaggregater produsert av nerder i bransjen — med kuldemedier som har lavest mulig klimaavtrykk og en enestående COP.',
+    primaryCta: 'Utforsk kuldemediene',
+    secondaryCta: 'Les kundehistorien',
+    imageAlt: 'Green Circle aggregat åpnet — viser interne komponenter',
+    specs: [
+      {
+        num: '4',
+        unit: 'medier',
+        label: 'R290 · R600a · R744 · R717',
+      },
+      {
+        num: '85',
+        unit: '°C',
+        label: 'Utgående varmtvann',
+      },
+      {
+        num: '3–5×',
+        unit: '',
+        label: 'Varme per kWh tilført',
+      },
+    ],
   },
-  {
-    num: '85',
-    unit: '°C',
-    label: 'Utgående varmtvann',
+  en: {
+    eyebrow: 'Refrigeration and heat pump units',
+    title: {
+      line1: 'Natural',
+      line2: 'refrigerants.',
+      lime: 'Handcrafted',
+      green: 'engineering.',
+    },
+    lead:
+      'Green Circle is a range of bespoke refrigeration and heat pump units produced by specialists in the field — using refrigerants with the lowest possible climate impact and outstanding COP.',
+    primaryCta: 'Explore refrigerants',
+    secondaryCta: 'Read the customer story',
+    imageAlt: 'Open Green Circle unit showing internal components',
+    specs: [
+      {
+        num: '4',
+        unit: 'media',
+        label: 'R290 · R600a · R744 · R717',
+      },
+      {
+        num: '85',
+        unit: '°C',
+        label: 'Outgoing hot water',
+      },
+      {
+        num: '3–5×',
+        unit: '',
+        label: 'Heat per kWh input',
+      },
+    ],
   },
-  {
-    num: '3–5×',
-    unit: '',
-    label: 'Varme per kWh tilført',
-  },
-];
+}[lang];
 
 const tags = [
   { code: 'R290', gwp: 'GWP 3', color: '#8BC53F', pos: 't1' },
@@ -29,19 +84,16 @@ const tags = [
   <div class="hero-grid">
     <div>
       <div class="eyebrow">
-        <span class="eyebrow-dot"></span>Kulde- og varmepumpeaggregater
+        <span class="eyebrow-dot"></span>{copy.eyebrow}
       </div>
       <h1 class="display">
-        Naturlige<br />kuldemedier.<br />
-        <span class="lime">Håndlagd</span> <span class="green">ingeniørkunst.</span>
+        {copy.title.line1}<br />{copy.title.line2}<br />
+        <span class="lime">{copy.title.lime}</span> <span class="green">{copy.title.green}</span>
       </h1>
-      <p class="lead">
-        Green Circle er en serie skreddersydde kulde- og varmepumpeaggregater produsert av nerder i
-        bransjen — med kuldemedier som har lavest mulig klimaavtrykk og en enestående COP.
-      </p>
+      <p class="lead">{copy.lead}</p>
       <div class="hero-ctas">
         <a class="btn btn-primary" href="#refrigerants">
-          Utforsk kuldemediene
+          {copy.primaryCta}
           <svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path
               d="M3 8h10m-4-4 4 4-4 4"
@@ -52,11 +104,11 @@ const tags = [
             />
           </svg>
         </a>
-        <a class="btn btn-ghost" href="#case">Les kundehistorien</a>
+        <a class="btn btn-ghost" href="#case">{copy.secondaryCta}</a>
       </div>
       <div class="hero-specs">
         {
-          specs.map((s) => (
+          copy.specs.map((s) => (
             <div class="hero-spec">
               <div class="num">
                 {s.num}
@@ -76,7 +128,7 @@ const tags = [
       <div class="hero-img-wrap">
         <img
           src="/assets/img-open.jpg"
-          alt="Green Circle aggregat åpnet — viser interne komponenter"
+          alt={copy.imageAlt}
         />
         <div class="hero-img-overlay"></div>
       </div>

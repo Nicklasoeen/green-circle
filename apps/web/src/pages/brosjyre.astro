@@ -4,6 +4,7 @@ import Nav from '../components/Nav.astro'
 import Contact from '../components/Contact.astro'
 
 const pdfHref = '/brosjyre/green-circle-2024.pdf'
+const lang = 'nb'
 
 const focusAreas = [
   {
@@ -82,10 +83,11 @@ const valueBullets = [
 ---
 
 <Layout
+  lang={lang}
   title="Brosjyre — Green Circle 2024"
   description="Les brosjyren for Green Circle — skreddersydde kulde- og varmepumpeaggregater fra Øen Kuldeteknikk. 2024-utgave."
 >
-  <Nav />
+  <Nav lang={lang} />
 
   <header class="brochure-hero" id="top">
     <div class="brochure-hero-inner">
@@ -225,7 +227,7 @@ const valueBullets = [
     </div>
 
     <p class="brochure-intro-p reveal">
-      Alle Green Circle-aggregater produseres lokalt i Hornindal, på nordvestlandet. Vi leverer
+      Alle Green Circle-aggregater produseres lokalt på Nordvestlandet. Vi leverer
       komplette anlegg fra egen organisasjon — med full kontroll på hele verdikjeden.
     </p>
 
@@ -326,7 +328,7 @@ const valueBullets = [
     </div>
   </section>
 
-  <Contact />
+  <Contact lang={lang} />
 </Layout>
 
 <script>

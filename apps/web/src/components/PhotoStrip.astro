@@ -1,8 +1,26 @@
 ---
+import type {Lang} from '../i18n';
+
+interface Props {
+  lang?: Lang;
+}
+
+const {lang = 'nb'} = Astro.props;
+
+const copy = {
+  nb: {
+    alt: 'Green Circle — logo på aggregat',
+    label: 'HÅNDLAGD I HORNINDAL — LEVERT OVER HELE LANDET',
+  },
+  en: {
+    alt: 'Green Circle — logo on unit',
+    label: 'HANDCRAFTED IN HORNINDAL — DELIVERED NATIONWIDE',
+  },
+}[lang];
 ---
 
 <div class="img-strip">
-  <img src="/assets/img-logo.jpg" alt="Green Circle — logo på aggregat" />
+  <img src="/assets/img-logo.jpg" alt={copy.alt} />
   <div class="img-strip-overlay"></div>
-  <div class="img-strip-label">HÅNDLAGD I HORNINDAL — LEVERT OVER HELE LANDET</div>
+  <div class="img-strip-label">{copy.label}</div>
 </div>

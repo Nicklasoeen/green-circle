@@ -1,19 +1,22 @@
 ---
 import '../styles/global.css';
+import type {Lang} from '../i18n';
 
 interface Props {
+  lang?: Lang;
   title?: string;
   description?: string;
 }
 
 const {
+  lang = 'nb',
   title = 'Green Circle — by Øen Kuldeteknikk',
-  description = 'Håndlagde kulde- og varmepumpeaggregater med naturlige kuldemedier. R290, R600a, R744 og R717 — produsert i Hornindal, levert over hele Norge.',
+  description = 'Håndlagde kulde- og varmepumpeaggregater med naturlige kuldemedier. R290, R600a, R744 og R717 — produsert i Norge, levert over hele Norge.',
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="nb">
+<html lang={lang === 'en' ? 'en' : 'nb'}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

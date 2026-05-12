@@ -1,43 +1,74 @@
 ---
+import type {Lang} from '../i18n';
+
+interface Props {
+  lang?: Lang;
+}
+
+const {lang = 'nb'} = Astro.props;
+
+const copy = {
+  nb: {
+    sectionNum: '04 — REFERANSE',
+    title: 'Birger N. Haug',
+    titleLine2: 'Eiendom AS',
+    imageAlt: 'Installert Green Circle anlegg',
+    kicker: 'FAMILIEEID — 80.000 M² NÆRINGSEIENDOM — ØSTLANDET',
+    quote:
+      'Øen skulle levere en komplett skreddersydd varme- og kjølesentral med to-krets varmepumpe for propan, pumper, shunter, buffertanker og integrert automatikk. Vi opplever kvalitet på utstyr og produkter som meget høy — og allerede etter noen uker er driften stabil med meget god COP.',
+    role: 'Teknisk sjef, Birger N. Haug Eiendom AS',
+    metrics: [
+      {value: '3 000 m²', label: 'Næringsbygg i Lier'},
+      {value: '25 år', label: 'Eksisterende anlegg erstattet'},
+      {value: 'R290', label: 'To-krets varmepumpe'},
+    ],
+  },
+  en: {
+    sectionNum: '04 — REFERENCE',
+    title: 'Birger N. Haug',
+    titleLine2: 'Eiendom AS',
+    imageAlt: 'Installed Green Circle system',
+    kicker: 'FAMILY-OWNED — 80,000 M² COMMERCIAL PROPERTY — EASTERN NORWAY',
+    quote:
+      'Øen was to deliver a complete bespoke heating and cooling plant with a two-circuit propane heat pump, pumps, shunts, buffer tanks and integrated automation. We experience the quality of the equipment and products as very high — and after only a few weeks, operation is stable with very good COP.',
+    role: 'Technical Manager, Birger N. Haug Eiendom AS',
+    metrics: [
+      {value: '3,000 m²', label: 'Commercial building in Lier'},
+      {value: '25 years', label: 'Existing system replaced'},
+      {value: 'R290', label: 'Two-circuit heat pump'},
+    ],
+  },
+}[lang];
 ---
 
 <section id="case">
   <div class="section-head reveal">
-    <div class="section-num">04 — REFERANSE</div>
-    <h2 class="section-title">Birger N. Haug<br />Eiendom AS</h2>
+    <div class="section-num">{copy.sectionNum}</div>
+    <h2 class="section-title">{copy.title}<br />{copy.titleLine2}</h2>
   </div>
   <div class="case reveal">
     <div class="case-visual">
-      <img src="/assets/img-installed.jpg" alt="Installert Green Circle anlegg" />
+      <img src="/assets/img-installed.jpg" alt={copy.imageAlt} />
     </div>
     <div>
-      <div class="case-kicker">FAMILIEEID — 80.000 M² NÆRINGSEIENDOM — ØSTLANDET</div>
+      <div class="case-kicker">{copy.kicker}</div>
       <div class="case-quote">
-        <span class="mark">«</span>Øen skulle levere en komplett skreddersydd varme- og kjølesentral
-        med to-krets varmepumpe for propan, pumper, shunter, buffertanker og integrert automatikk.
-        Vi opplever kvalitet på utstyr og produkter som meget høy — og allerede etter noen uker er
-        driften stabil med meget god COP.<span class="mark">»</span>
+        <span class="mark">«</span>{copy.quote}<span class="mark">»</span>
       </div>
       <div class="case-attr">
         <div class="case-avatar" aria-hidden="true">TH</div>
         <div>
           <div class="case-name">Thomas Hovde</div>
-          <div class="case-role">Teknisk sjef, Birger N. Haug Eiendom AS</div>
+          <div class="case-role">{copy.role}</div>
         </div>
       </div>
       <div class="case-metrics">
-        <div class="case-metric">
-          <div class="v">3 000 m²</div>
-          <div class="l">Næringsbygg i Lier</div>
-        </div>
-        <div class="case-metric">
-          <div class="v">25 år</div>
-          <div class="l">Eksisterende anlegg erstattet</div>
-        </div>
-        <div class="case-metric">
-          <div class="v">R290</div>
-          <div class="l">To-krets varmepumpe</div>
-        </div>
+        {copy.metrics.map((metric) => (
+          <div class="case-metric">
+            <div class="v">{metric.value}</div>
+            <div class="l">{metric.label}</div>
+          </div>
+        ))}
       </div>
     </div>
   </div>
